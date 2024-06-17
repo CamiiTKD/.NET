@@ -1,0 +1,36 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "CGE.Repositorios/1.0.0": {
+        "dependencies": {
+          "CGE.Aplicacion": "1.0.0"
+        },
+        "runtime": {
+          "CGE.Repositorios.dll": {}
+        }
+      },
+      "CGE.Aplicacion/1.0.0": {
+        "runtime": {
+          "CGE.Aplicacion.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "CGE.Repositorios/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "CGE.Aplicacion/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
