@@ -28,6 +28,7 @@ builder.Services.AddTransient<CasoDeUsoUsuarioAlta>();
 builder.Services.AddTransient<CasoDeUsoUsuarioBaja>();
 builder.Services.AddTransient<CasoDeUsoListarUsuarios>();
 builder.Services.AddTransient<CasoDeUsoUsuarioModificacion>();
+builder.Services.AddTransient<CasoDeUsoUsuarioConsultaPorId>();
 // VALIDADOR
 builder.Services.AddSingleton<ExpedienteValidador>();
 builder.Services.AddSingleton<TramiteValidador>();

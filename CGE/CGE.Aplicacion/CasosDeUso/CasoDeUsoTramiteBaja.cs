@@ -9,9 +9,9 @@ public class CasoDeUsoTramiteBaja(ITramiteRepositorio repoTra, IExpedienteReposi
         Tramite? tramite = repoTra.consultaPorTramiteId(idTramite);
         repoTra.darDeBajaTramite(idTramite);
         Expediente? expediente = repoExp.consultaPorId(tramite.ExpedienteId);
-        EstadoExpediente? estadoPrevio = expediente.estado;
+        EstadoExpediente? estadoPrevio = expediente.Estado;
         servicio.ActualizarEstado(expediente);
-        EstadoExpediente? estadoNuevo = expediente.estado;
+        EstadoExpediente? estadoNuevo = expediente.Estado;
         if (estadoPrevio!=estadoNuevo) repoExp.ModificarExpediente(expediente);
         expediente = null;
         tramite = null;

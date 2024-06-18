@@ -23,10 +23,10 @@ public class CasoDeUsoExpedienteModificacion(IExpedienteRepositorio repoExp, Exp
                     case 1:
                         System.Console.Write("Ingrese la nueva carátula: ");
                         string? caratula = System.Console.ReadLine();
-                        expediente.caratula = caratula;
+                        expediente.Caratula = caratula;
                         break;
                     case 2:
-                        expediente.estado = ElegirEstado(expediente.estado);
+                        expediente.Estado = ElegirEstado(expediente.Estado);
                         break;
                     default:
                         System.Console.WriteLine("Opción de modificación inválida.");
