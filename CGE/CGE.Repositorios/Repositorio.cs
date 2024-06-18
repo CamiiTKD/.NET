@@ -3,7 +3,7 @@ namespace CGE.Repositorios;
 using Aplicacion;
 
 
-public class Repositorio : IExpedienteRepositorio, ITramiteRepositorio
+public class Repositorio : IExpedienteRepositorio, ITramiteRepositorio, IUsuarioRepositorio
 {
     readonly string nombreArchivoExpedientes = "..\\CGE.Repositorios\\BaseDeDatos_Expedientes.txt";
     readonly string nombreArchivoTramites = "..\\CGE.Repositorios\\BaseDeDatos_Tramites.txt";

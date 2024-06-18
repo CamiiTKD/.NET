@@ -19,6 +19,7 @@ public class CGESqlite{
             permisosAdmin.Add(Permiso.UsuarioBaja);
             permisosAdmin.Add(Permiso.UsuarioModificacion);
             context.Add(new Usuario(){id=1,nombre="Admin", apellido="", email= "", contraseña= "contraseñaAdmin", permisos=permisosAdmin});
+            context.SaveChanges();
         }
         var connection = context.Database.GetDbConnection();
         connection.Open();
