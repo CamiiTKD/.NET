@@ -1,4 +1,4 @@
-@page "/listadoclientes"
+@page "/listadousuarios"
 @rendermode InteractiveServer
 @inject NavigationManager Navegador;
 @inject CasoDeUsoListarUsuarios CasoDeUsoListarUsuarios
@@ -15,6 +15,7 @@
             <th>ACCIÓN</th>
         </tr>
     </thead>
+
     <tbody>
         @foreach (var u in _lista)
         {
@@ -54,8 +55,8 @@
         _lista = CasoDeUsoListarUsuarios.EjecutarListado();
     }
 
-    void ModificarCliente(Usuario u)
+    void ModificarUsuario(Usuario u)
     {
-        Navegador.NavigateTo($"cliente/{u.id}");
+        Navegador.NavigateTo($"usuario/{u.id}");
     }
 }
