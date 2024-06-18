@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CGE.Consola")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c6e8d0d30bec9d359e17da4b32ce2624358be6bb")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c3c5dd6c77e79b78c866107ab9151ab6a0d2a994")]
 [assembly: System.Reflection.AssemblyProductAttribute("CGE.Consola")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CGE.Consola")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
