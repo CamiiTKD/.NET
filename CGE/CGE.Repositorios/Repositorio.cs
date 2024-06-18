@@ -1,7 +1,9 @@
 namespace CGE.Repositorios;
 
 using Aplicacion;
-
+using System.Security.Cryptography;
+using System.Text;
+using System;
 
 public class Repositorio : IExpedienteRepositorio, ITramiteRepositorio, IUsuarioRepositorio
 {
@@ -261,13 +263,24 @@ public class Repositorio : IExpedienteRepositorio, ITramiteRepositorio, IUsuario
 
     public List<Usuario> consultaUsuarios()
     {
-        Console.WriteLine("Entró al método de consulta usuarios.");
         return contexto.Usuarios.ToList();
     }
     public void darDeAltaUsuario(Usuario u)
     {
+        using (SHA256 sha256Hash = SHA256.Create())
+        {
+            // Computar el hash - retorna un array de bytes
+            byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(u.contraseña));
+
+            // Convertir el array de bytes a una cadena hexadecimal
+            StringBuilder builder = new StringBuilder();
+            for (int i = 0; i < bytes.Length; i++)
+            {
+                builder.Append(bytes[i].ToString("x2"));
+            }
+            u.contraseña=builder.ToString();
+        }
         contexto.Add(u);
-        //falta codificar la contraseña
         contexto.SaveChanges();
     }
     public void darDeBajaUsuario(int idBorrar)

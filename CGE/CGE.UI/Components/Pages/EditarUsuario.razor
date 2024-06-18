@@ -1,4 +1,4 @@
-@page "/cliente/{Id:int?}"
+@page "/usuario/{Id:int?}"
 @rendermode InteractiveServer
 @inject CasoDeUsoUsuarioConsultaPorId CasoDeUsoUsuarioConsultaPorId
 @inject CasoDeUsoUsuarioModificacion CasoDeUsoUsuarioModificacion
@@ -23,6 +23,6 @@
     void Aceptar()
     {
         CasoDeUsoUsuarioModificacion.EjecutarModificarUsuario(_user);
-        Navegador.NavigateTo("listadoclientes");
+        Navegador.NavigateTo("listadousuarios");
     }
 }
