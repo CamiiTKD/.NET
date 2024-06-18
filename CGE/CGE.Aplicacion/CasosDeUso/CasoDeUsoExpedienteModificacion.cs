@@ -3,7 +3,8 @@ public class CasoDeUsoExpedienteModificacion(IExpedienteRepositorio repoExp, Exp
 {
     public void EjecutarModificacionExpediente(int idExpediente, Usuario usuario)
     {
-        if (!servicioAutorizacionProvisorio.PoseeElPermiso(usuario.permisos, Permiso.ExpedienteModificacion)){
+        if (!servicioAutorizacionProvisorio.PoseeElPermiso(usuario.permisos, Permiso.ExpedienteModificacion))
+        {
             new AutorizacionException($"El usuario con id: {usuario.id} no posee permisos para modificar expedientes.");
         }
         bool salir = false;
@@ -22,10 +23,10 @@ public class CasoDeUsoExpedienteModificacion(IExpedienteRepositorio repoExp, Exp
                     case 1:
                         System.Console.Write("Ingrese la nueva carátula: ");
                         string? caratula = System.Console.ReadLine();
-                        expediente.caratula=caratula;
+                        expediente.caratula = caratula;
                         break;
                     case 2:
-                        expediente.estado=ElegirEstado(expediente.estado);
+                        expediente.estado = ElegirEstado(expediente.estado);
                         break;
                     default:
                         System.Console.WriteLine("Opción de modificación inválida.");
@@ -37,12 +38,13 @@ public class CasoDeUsoExpedienteModificacion(IExpedienteRepositorio repoExp, Exp
                 System.Console.WriteLine("Se esperaba un número.");
             }
         }
-        if(validador.Validar(expediente)){
+        if (validador.Validar(expediente))
+        {
             servicio.ActualizarEstado(expediente); //No importa lo que ponga el usuario si el tramite ultimo activa un cambio.
             expediente.ModificarUltimaFecha(usuario.id);
             repoExp.ModificarExpediente(expediente);
         }
-        expediente=null;
+        expediente = null;
     }
     private void ImprimirOpciones()
     {

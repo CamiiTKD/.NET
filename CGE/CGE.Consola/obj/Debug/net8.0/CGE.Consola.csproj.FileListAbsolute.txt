@@ -99,3 +99,12 @@ C:\Users\camit\Facultad\.Net\.Net\.NET\CGE\CGE.Consola\obj\Debug\net8.0\refint\C
 C:\Users\camit\Facultad\.Net\.Net\.NET\CGE\CGE.Consola\obj\Debug\net8.0\CGE.Consola.pdb
 C:\Users\camit\Facultad\.Net\.Net\.NET\CGE\CGE.Consola\obj\Debug\net8.0\CGE.Consola.genruntimeconfig.cache
 C:\Users\camit\Facultad\.Net\.Net\.NET\CGE\CGE.Consola\obj\Debug\net8.0\ref\CGE.Consola.dll
+C:\Users\Mateo Matus\Desktop\2do año\PROYECTO\.NET\CGE\CGE.Consola\obj\Debug\net8.0\CGE.Consola.csproj.AssemblyReference.cache
+C:\Users\Mateo Matus\Desktop\2do año\PROYECTO\.NET\CGE\CGE.Consola\obj\Debug\net8.0\CGE.Consola.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Mateo Matus\Desktop\2do año\PROYECTO\.NET\CGE\CGE.Consola\obj\Debug\net8.0\CGE.Consola.AssemblyInfoInputs.cache
+C:\Users\Mateo Matus\Desktop\2do año\PROYECTO\.NET\CGE\CGE.Consola\obj\Debug\net8.0\CGE.Consola.AssemblyInfo.cs
+C:\Users\Mateo Matus\Desktop\2do año\PROYECTO\.NET\CGE\CGE.Consola\obj\Debug\net8.0\CGE.Consola.csproj.CoreCompileInputs.cache
+C:\Users\Mateo Matus\Desktop\2do año\PROYECTO\.NET\CGE\CGE.Consola\obj\Debug\net8.0\CGE.Consola.sourcelink.json
+C:\Users\Mateo Matus\Desktop\2do año\PROYECTO\.NET\CGE\CGE.Consola\obj\Debug\net8.0\CGE.Consola.dll
+C:\Users\Mateo Matus\Desktop\2do año\PROYECTO\.NET\CGE\CGE.Consola\obj\Debug\net8.0\refint\CGE.Consola.dll
+C:\Users\Mateo Matus\Desktop\2do año\PROYECTO\.NET\CGE\CGE.Consola\obj\Debug\net8.0\CGE.Consola.pdb

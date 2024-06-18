@@ -24,12 +24,12 @@ public class CasoDeUsoTramiteModificacion(ITramiteRepositorio repoTra, IExpedien
                         case 1:
                             Console.Write("Ingrese el nuevo contenido:");
                             string? contenido = Console.ReadLine();
-                            tramite.contenido = contenido;
+                            tramite.Contenido = contenido;
                             break;
                         case 2:
                             try
                             {
-                                tramite.tipo = ElegirEtiqueta(tramite.tipo);
+                                tramite.Tipo = ElegirEtiqueta(tramite.Tipo);
                             }
                             catch
                             {
@@ -51,7 +51,7 @@ public class CasoDeUsoTramiteModificacion(ITramiteRepositorio repoTra, IExpedien
         //podría usarse un bool para evitar que se modifique si no hay cambios
         Expediente? expediente = repoExp.consultaPorId(tramite.ExpedienteId);
         tramite.ModificarUltimaFecha(usuario.id);
-        repoTra.ModificarTramite(tramite);
+        repoTra.ModificarTramite(tramite); //lo mando ya modificado!!
         servicio.ActualizarEstado(expediente);
         expediente = null;
         tramite = null;
