@@ -1,10 +1,10 @@
 namespace CGE.Aplicacion;
 public class CasoDeUsoTramiteModificacion(ITramiteRepositorio repoTra, IExpedienteRepositorio repoExp, ServicioActualizacionEstado servicio, IServicioAutorizacion servicioAutorizacion)
 {
-    public void EjecutarModificacionTramite(int idTramite, int idUsuario) //otra opcion es recibir expediente id y preguntar por cual tramite quiero modificar.
+    public void EjecutarModificacionTramite(int idTramite, Usuario usuario) //otra opcion es recibir expediente id y preguntar por cual tramite quiero modificar.
     {
-        if(!servicioAutorizacion.PoseeElPermiso(idUsuario, Permiso.TramiteModificacion)){
-            new AutorizacionException($"El usuario con id: {idUsuario} no posee permisos para modificar trámites.");
+        if(!servicioAutorizacion.PoseeElPermiso(usuario.permisos, Permiso.TramiteModificacion)){
+            new AutorizacionException($"El usuario con id: {usuario.id} no posee permisos para modificar trámites.");
         }
         bool salir = false;
         Tramite? tramite = repoTra.consultaPorTramiteId(idTramite);
@@ -50,7 +50,7 @@ public class CasoDeUsoTramiteModificacion(ITramiteRepositorio repoTra, IExpedien
         }
         //podría usarse un bool para evitar que se modifique si no hay cambios
         Expediente? expediente = repoExp.consultaPorId(tramite.ExpedienteId);
-        tramite.ModificarUltimaFecha(idUsuario);
+        tramite.ModificarUltimaFecha(usuario.id);
         repoTra.ModificarTramite(tramite);
         servicio.ActualizarEstado(expediente);
         expediente = null;

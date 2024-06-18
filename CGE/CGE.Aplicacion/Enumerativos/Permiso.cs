@@ -7,7 +7,6 @@ public enum Permiso{
     TramiteBaja,
     TramiteModificacion,
     PermisoModificacion,
-    UsuarioListado,
     UsuarioBaja,
     UsuarioModificacion
 }

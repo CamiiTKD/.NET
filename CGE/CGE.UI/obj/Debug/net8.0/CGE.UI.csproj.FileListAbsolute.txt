@@ -63,3 +63,4 @@ C:\Users\camit\Facultad\.Net\.Net\.NET\CGE\CGE.UI\obj\Debug\net8.0\refint\CGE.UI
 C:\Users\camit\Facultad\.Net\.Net\.NET\CGE\CGE.UI\obj\Debug\net8.0\CGE.UI.pdb
 C:\Users\camit\Facultad\.Net\.Net\.NET\CGE\CGE.UI\obj\Debug\net8.0\CGE.UI.genruntimeconfig.cache
 C:\Users\camit\Facultad\.Net\.Net\.NET\CGE\CGE.UI\obj\Debug\net8.0\ref\CGE.UI.dll
+C:\Users\camit\Facultad\.Net\.Net\.NET\CGE\CGE.UI\obj\Debug\net8.0\scopedcss\Components\Pages\DialogoConfirmacion.razor.rz.scp.css

@@ -1,14 +1,15 @@
 @page "/SignUp"
 @rendermode InteractiveServer
 @inject NavigationManager Navegador;
+@using CGE.Aplicacion
 @inject CasoDeUsoUsuarioAlta CasoDeUsoUsuarioAlta
 
 <PageTitle>Registrarse</PageTitle>
 
-<input placeholder="Nombre" @bind="p.Nombre" /><br>
-<input placeholder="Apellido" @bind="p.Apellido" /><br>
-<input placeholder="Email" @bind="p.Email" /><br>
-<input placeholder="Contraseña" @bind="p.Contraseña" /><br>
+<input placeholder="Nombre" @bind="p.nombre" /><br>
+<input placeholder="Apellido" @bind="p.apellido" /><br>
+<input placeholder="Email" @bind="p.email" /><br>
+<input placeholder="Contraseña" @bind="p.contraseña" /><br>
 <button @onclick="Registrarse">Aceptar</button>
 
 @code{

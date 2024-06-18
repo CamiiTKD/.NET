@@ -1,10 +1,10 @@
 namespace CGE.Aplicacion;
 public class CasoDeUsoTramiteAlta(ITramiteRepositorio repoTra, IExpedienteRepositorio repoExp, TramiteValidador validador, ServicioActualizacionEstado servicio, IServicioAutorizacion servicioAutorizacion)
 {
-    public void EjecutarTramiteAlta(Tramite tramite, int idUsuario)
+    public void EjecutarTramiteAlta(Tramite tramite, Usuario usuario)
     {
-        if(!servicioAutorizacion.PoseeElPermiso(idUsuario, Permiso.TramiteAlta)){
-            new AutorizacionException($"El usuario con el id: {idUsuario} no posee permisos para dar de alta trámites.");
+        if(!servicioAutorizacion.PoseeElPermiso(usuario.permisos, Permiso.TramiteAlta)){
+            new AutorizacionException($"El usuario con el id: {usuario.id} no posee permisos para dar de alta trámites.");
         }
         if (validador.Validar(tramite))
         {

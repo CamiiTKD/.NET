@@ -44,12 +44,12 @@
     private void ConfirmarEliminacion(Usuario u)
     {
         dialogo.OnConfirmado = EventCallback.Factory.Create(this, () => Eliminar(u));
-        dialogo.Mensaje = $"¿Desea eliminar al usuario {u.Nombre} {u.Apellido}?";
+        dialogo.Mensaje = $"¿Desea eliminar al usuario {u.nombre} {u.apellido}?";
         dialogo.Mostrar();  
     }
     private void Eliminar(Usuario u)
     {
-        CasoDeUsoUsuarioBaja.EjecutarUsuarioBaja(u.Id);
+        CasoDeUsoUsuarioBaja.EjecutarUsuarioBaja(u.id);
         _lista = CasoDeUsoListarUsuarios.EjecutarListado();
     }
 }

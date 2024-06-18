@@ -1,4 +1,4 @@
 namespace CGE.Aplicacion;
 public interface IServicioAutorizacion{
-    bool PoseeElPermiso(int IdUsuario, Permiso permiso);
+    bool PoseeElPermiso(List<Permiso>permisos, Permiso permiso);
 }

@@ -26,7 +26,7 @@ builder.Services.AddTransient<CasoDeUsoTramiteModificacion>();
 // USUARIO
 builder.Services.AddTransient<CasoDeUsoUsuarioAlta>();
 builder.Services.AddTransient<CasoDeUsoUsuarioBaja>();
-builder.Services.AddTransient<CasoDeUsoUsuarioConsultaTodos>();
+builder.Services.AddTransient<CasoDeUsoListarUsuarios>();
 builder.Services.AddTransient<CasoDeUsoUsuarioModificacion>();
 // VALIDADOR
 builder.Services.AddSingleton<ExpedienteValidador>();
@@ -34,7 +34,7 @@ builder.Services.AddSingleton<TramiteValidador>();
 // SERVICIO
 builder.Services.AddSingleton<EspecificacionCambioEstado>();
 builder.Services.AddSingleton<ServicioActualizacionEstado>();
-builder.Services.AddSingleton<IServicioAutorizacion, ServicioAutorizacionProvisorio>();
+builder.Services.AddSingleton<IServicioAutorizacion, ServicioAutorizacion>();
 // REPOSITORIO
 builder.Services.AddSingleton<IExpedienteRepositorio, Repositorio>(ExpedienteRepo => new Repositorio(contexto));
 builder.Services.AddSingleton<ITramiteRepositorio, Repositorio>(TramiteRepo => new Repositorio(contexto));

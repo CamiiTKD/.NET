@@ -15,7 +15,6 @@ public class CGESqlite{
             permisosAdmin.Add(Permiso.TramiteBaja);
             permisosAdmin.Add(Permiso.TramiteModificacion);
             permisosAdmin.Add(Permiso.PermisoModificacion);
-            permisosAdmin.Add(Permiso.UsuarioListado);
             permisosAdmin.Add(Permiso.UsuarioBaja);
             permisosAdmin.Add(Permiso.UsuarioModificacion);
             context.Add(new Usuario(){id=1,nombre="Admin", apellido="", email= "", contraseña= "contraseñaAdmin", permisos=permisosAdmin});

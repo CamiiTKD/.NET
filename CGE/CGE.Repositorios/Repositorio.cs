@@ -7,6 +7,7 @@ public class Repositorio : IExpedienteRepositorio, ITramiteRepositorio, IUsuario
 {
     readonly string nombreArchivoExpedientes = "..\\CGE.Repositorios\\BaseDeDatos_Expedientes.txt";
     readonly string nombreArchivoTramites = "..\\CGE.Repositorios\\BaseDeDatos_Tramites.txt";
+    public CGEContext contexto;
     public static int idExpediente;
     public static int idTramite;
     public Repositorio(CGEContext contexto)
@@ -400,14 +401,22 @@ public class Repositorio : IExpedienteRepositorio, ITramiteRepositorio, IUsuario
             return -1; //no llega acá, sale en la exception
         }
     }
-    public Usuario consultaUsuarioId(int id){
-        return null;
+    public List<Usuario> consultaUsuarios(){
+        Console.WriteLine("Entró al método de consulta usuarios.");
+        return contexto.Usuarios.ToList();
     }
     public void darDeAltaUsuario(Usuario u){
-
+        contexto.Add(u);
+        //falta codificar la contraseña
+        contexto.SaveChanges();
     }
-    public void darDeBajaUsuario(int id){
-
+    public void darDeBajaUsuario(int idBorrar){
+        var usuarioBorrar = contexto.Usuarios.Where(a => a.id == idBorrar).SingleOrDefault();
+        if (usuarioBorrar==null){
+            new RepositorioException ($"el usuario con id: {idBorrar} no se encuentra registrado en la pagina.");
+        }
+        contexto.Remove(usuarioBorrar);
+        contexto.SaveChanges();
     }
     public void ModificarUsuario(Usuario usuario){
 

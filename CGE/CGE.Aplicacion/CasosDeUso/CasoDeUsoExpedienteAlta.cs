@@ -2,10 +2,10 @@ namespace CGE.Aplicacion;
 
 public class CasoDeUsoExpedienteAlta(IExpedienteRepositorio repo, ExpedienteValidador validador, IServicioAutorizacion servicio)
 {
-    public void EjecutarExpedienteAlta(Expediente expediente, int idUsuario)
+    public void EjecutarExpedienteAlta(Expediente expediente, Usuario usuario)
     {
-        if(!servicio.PoseeElPermiso(idUsuario, Permiso.ExpedienteAlta)){
-            new AutorizacionException($"El usuario con id: {idUsuario} no posee permisos para dar de alta expedientes.");
+        if(!servicio.PoseeElPermiso(usuario.permisos, Permiso.ExpedienteAlta)){
+            new AutorizacionException($"El usuario con id: {usuario.id} no posee permisos para dar de alta expedientes.");
         }
         if (validador.Validar(expediente))
         {

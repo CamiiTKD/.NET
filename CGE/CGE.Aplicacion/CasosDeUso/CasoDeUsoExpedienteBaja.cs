@@ -1,10 +1,10 @@
 namespace CGE.Aplicacion;
 public class CasoDeUsoExpedienteBaja(IExpedienteRepositorio repoExp, ITramiteRepositorio repoTra, IServicioAutorizacion servicio)
 {
-    public void EjecutarExpedienteBaja(int idExpediente, int idUsuario)
+    public void EjecutarExpedienteBaja(int idExpediente, Usuario usuario)
     {
-        if(!servicio.PoseeElPermiso(idUsuario, Permiso.ExpedienteBaja)){
-            new AutorizacionException($"El usuario con id: {idUsuario} no posee permisos para dar de baja expedientes.");
+        if(!servicio.PoseeElPermiso(usuario.permisos, Permiso.ExpedienteBaja)){
+            new AutorizacionException($"El usuario con id: {usuario.id} no posee permisos para dar de baja expedientes.");
         }
         Expediente? e = repoExp.consultaPorId(idExpediente);
         if((e.tramites != null)&&(e.tramites.Count != 0)){
