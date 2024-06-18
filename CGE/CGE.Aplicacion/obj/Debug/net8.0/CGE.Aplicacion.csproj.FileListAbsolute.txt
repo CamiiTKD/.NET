@@ -34,3 +34,15 @@ C:\Users\camit\Facultad\.Net\.Net\.NET\CGE\CGE.Aplicacion\obj\Debug\net8.0\CGE.A
 C:\Users\camit\Facultad\.Net\.Net\.NET\CGE\CGE.Aplicacion\obj\Debug\net8.0\refint\CGE.Aplicacion.dll
 C:\Users\camit\Facultad\.Net\.Net\.NET\CGE\CGE.Aplicacion\obj\Debug\net8.0\CGE.Aplicacion.pdb
 C:\Users\camit\Facultad\.Net\.Net\.NET\CGE\CGE.Aplicacion\obj\Debug\net8.0\ref\CGE.Aplicacion.dll
+C:\Users\Mateo Matus\Desktop\2do año\PROYECTO\.NET\CGE\CGE.Aplicacion\bin\Debug\net8.0\CGE.Aplicacion.deps.json
+C:\Users\Mateo Matus\Desktop\2do año\PROYECTO\.NET\CGE\CGE.Aplicacion\bin\Debug\net8.0\CGE.Aplicacion.dll
+C:\Users\Mateo Matus\Desktop\2do año\PROYECTO\.NET\CGE\CGE.Aplicacion\bin\Debug\net8.0\CGE.Aplicacion.pdb
+C:\Users\Mateo Matus\Desktop\2do año\PROYECTO\.NET\CGE\CGE.Aplicacion\obj\Debug\net8.0\CGE.Aplicacion.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Mateo Matus\Desktop\2do año\PROYECTO\.NET\CGE\CGE.Aplicacion\obj\Debug\net8.0\CGE.Aplicacion.AssemblyInfoInputs.cache
+C:\Users\Mateo Matus\Desktop\2do año\PROYECTO\.NET\CGE\CGE.Aplicacion\obj\Debug\net8.0\CGE.Aplicacion.AssemblyInfo.cs
+C:\Users\Mateo Matus\Desktop\2do año\PROYECTO\.NET\CGE\CGE.Aplicacion\obj\Debug\net8.0\CGE.Aplicacion.csproj.CoreCompileInputs.cache
+C:\Users\Mateo Matus\Desktop\2do año\PROYECTO\.NET\CGE\CGE.Aplicacion\obj\Debug\net8.0\CGE.Aplicacion.sourcelink.json
+C:\Users\Mateo Matus\Desktop\2do año\PROYECTO\.NET\CGE\CGE.Aplicacion\obj\Debug\net8.0\CGE.Aplicacion.dll
+C:\Users\Mateo Matus\Desktop\2do año\PROYECTO\.NET\CGE\CGE.Aplicacion\obj\Debug\net8.0\refint\CGE.Aplicacion.dll
+C:\Users\Mateo Matus\Desktop\2do año\PROYECTO\.NET\CGE\CGE.Aplicacion\obj\Debug\net8.0\CGE.Aplicacion.pdb
+C:\Users\Mateo Matus\Desktop\2do año\PROYECTO\.NET\CGE\CGE.Aplicacion\obj\Debug\net8.0\ref\CGE.Aplicacion.dll

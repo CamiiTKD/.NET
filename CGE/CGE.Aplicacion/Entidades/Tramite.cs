@@ -1,52 +1,57 @@
 namespace CGE.Aplicacion;
 public class Tramite
 {
-    private int _id;
-    public int Id { get => _id; set => _id = value; } //setter público para delegar a repo la carga de IDs de trámite.
-    private int _expedienteId;
-    public int ExpedienteId { get => _expedienteId;  set => _expedienteId = value; }
-    private EtiquetaTramite _tipo;
-    public EtiquetaTramite tipo { get => _tipo;  set => _tipo = value; }
-    private string? _contenido;
-    public string? contenido { get => _contenido;  set => _contenido = value; }
-    private DateTime _creacion;
-    public DateTime creacion { get => _creacion;  set => _creacion = value; }
-    private DateTime _ultimaModificacion;
-    public DateTime ultimaModificacion { get => _ultimaModificacion;  set => _ultimaModificacion = value; }
-    private int _idUsuario;
-    public int IdUsuario { get => _idUsuario;  set => _idUsuario = value; }
+    public int Id { get; set; } //Se autoincrementa en la base de datos no?
+
+    public int ExpedienteId { get; set; }
+    public EtiquetaTramite Tipo { get; set; }
+    public string? Contenido { get; set; }
+    public DateTime Creacion { get; set; }
+    public DateTime UltimaModificacion { get; set; }
+    public int IdUsuario { get; set; }
     public Tramite()
     {
 
     }
     public Tramite(int expedienteId, EtiquetaTramite tipo, string? contenido, int idUsuario) //Al crear el tramite por primera vez ??
     {
-        _expedienteId = expedienteId;
-        _tipo = tipo;
-        _contenido = contenido;
-        _creacion = DateTime.Now;
-        _ultimaModificacion = creacion;
-        _idUsuario = idUsuario;
+        ExpedienteId = expedienteId;
+        Tipo = tipo;
+        Contenido = contenido;
+        Creacion = DateTime.Now;
+        UltimaModificacion = Creacion;
+        IdUsuario = idUsuario;
     }
 
     public Tramite(int id, int expedienteId, EtiquetaTramite tipo, string? contenido, DateTime creacion, DateTime modificacion, int idUsuario) //Usado en repoTra.consultaPorTramiteId.
     {
-        _id = id;
-        _expedienteId = expedienteId;
-        _tipo = tipo;
-        _contenido = contenido;
-        _creacion = creacion;
-        _ultimaModificacion = modificacion;
-        _idUsuario = idUsuario;
+        Id = id;
+        ExpedienteId = expedienteId;
+        Tipo = tipo;
+        Contenido = contenido;
+        Creacion = creacion;
+        UltimaModificacion = modificacion;
+        IdUsuario = idUsuario;
+    }
+
+    public Tramite(Tramite t)
+    {
+        Id = t.Id;
+        ExpedienteId = t.ExpedienteId;
+        Tipo = t.Tipo;
+        Contenido = t.Contenido;
+        Creacion = t.Creacion;
+        UltimaModificacion = t.UltimaModificacion;
+        IdUsuario = t.IdUsuario;
     }
 
     public void ModificarUltimaFecha(int ID)
     {
-        ultimaModificacion = DateTime.Now;
+        UltimaModificacion = DateTime.Now;
         IdUsuario = ID;
     }
     public override string ToString()
     {
-        return $"------------------\n ID: {Id}\n ID expediente asociado {ExpedienteId}\n Etiqueta: {tipo}\n Contenido: {contenido}\n Creacion: {creacion}\n Ultima modificacion: {ultimaModificacion}\n ID ultima modificacion: {IdUsuario}\n------------------\n";
+        return $"------------------\n ID: {Id}\n ID expediente asociado {ExpedienteId}\n Etiqueta: {Tipo}\n Contenido: {Contenido}\n Creacion: {Creacion}\n Ultima modificacion: {UltimaModificacion}\n ID ultima modificacion: {IdUsuario}\n------------------\n";
     }
 }
