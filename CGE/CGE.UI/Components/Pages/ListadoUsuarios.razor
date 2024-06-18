@@ -1,0 +1,55 @@
+@page "/listadoclientes"
+@rendermode InteractiveServer
+@inject CasoDeUsoListarUsuarios CasoDeUsoListarUsuarios
+@inject CasoDeUsoUsuarioBaja CasoDeUsoUsuarioBaja
+
+<DialogoConfirmacion @ref="dialogo" />
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>NOMBRE</th>
+            <th>APELLIDO</th>
+            <th>ACCIÓN</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var u in _lista)
+        {
+            <tr>
+                <td>@u.id</td>
+                <td>@u.nombre</td>
+                <td>@u.apellido</td>
+                <td>
+                    <button class="btn btn-primary">
+                        Editar
+                    </button>
+                    <button class="btn btn-danger" @onclick="()=>ConfirmarEliminacion(u)">
+                        Eliminar
+                    </button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+    List<Usuario> _lista = new List<Usuario>();
+    protected override void OnInitialized()
+    {
+        _lista = CasoDeUsoListarUsuarios.EjecutarListado();
+    }
+    DialogoConfirmacion dialogo = null!;
+    private void ConfirmarEliminacion(Usuario u)
+    {
+        dialogo.OnConfirmado = EventCallback.Factory.Create(this, () => Eliminar(u));
+        dialogo.Mensaje = $"¿Desea eliminar al usuario {u.Nombre} {u.Apellido}?";
+        dialogo.Mostrar();  
+    }
+    private void Eliminar(Usuario u)
+    {
+        CasoDeUsoUsuarioBaja.EjecutarUsuarioBaja(u.Id);
+        _lista = CasoDeUsoListarUsuarios.EjecutarListado();
+    }
+}

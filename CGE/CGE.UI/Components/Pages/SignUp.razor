@@ -1,5 +1,21 @@
 @page "/SignUp"
+@rendermode InteractiveServer
+@inject NavigationManager Navegador;
+@inject CasoDeUsoUsuarioAlta CasoDeUsoUsuarioAlta
 
 <PageTitle>Registrarse</PageTitle>
 
-formulario faltante
+<input placeholder="Nombre" @bind="p.Nombre" /><br>
+<input placeholder="Apellido" @bind="p.Apellido" /><br>
+<input placeholder="Email" @bind="p.Email" /><br>
+<input placeholder="Contraseña" @bind="p.Contraseña" /><br>
+<button @onclick="Registrarse">Aceptar</button>
+
+@code{
+    Usuario p = new Usuario();
+    void Registrarse()
+    {
+        CasoDeUsoUsuarioAlta.EjecutarAltaUsuario(p);
+        Navegador.NavigateTo("listadousuarios");
+    }
+}
