@@ -1,7 +1,7 @@
 using CGE.Aplicacion;
 using Microsoft.EntityFrameworkCore;
 
-namespace CGE;
+namespace CGE.Repositorios;
 
 public class CGEContext : DbContext{
     public DbSet<Usuario> Usuarios{ get; set;}

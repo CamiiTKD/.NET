@@ -9,7 +9,7 @@ public class Repositorio : IExpedienteRepositorio, ITramiteRepositorio, IUsuario
     readonly string nombreArchivoTramites = "..\\CGE.Repositorios\\BaseDeDatos_Tramites.txt";
     public static int idExpediente;
     public static int idTramite;
-    public Repositorio()
+    public Repositorio(CGEContext contexto)
     {
         idExpediente = buscarUltimoIdExpediente();
         idTramite = buscarUltimoIdTramite();
@@ -398,6 +398,18 @@ public class Repositorio : IExpedienteRepositorio, ITramiteRepositorio, IUsuario
             }
             new RepositorioException("no leyó nada");
             return -1; //no llega acá, sale en la exception
+        }
     }
-}
+    public Usuario consultaUsuarioId(int id){
+        return null;
+    }
+    public void darDeAltaUsuario(Usuario u){
+
+    }
+    public void darDeBajaUsuario(int id){
+
+    }
+    public void ModificarUsuario(Usuario usuario){
+
+    }
 }

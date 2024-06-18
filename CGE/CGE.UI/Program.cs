@@ -2,10 +2,7 @@ using CGE.UI.Components;
 
 //agregamos estas directivas using
 using CGE.Repositorios;
-using CGE.Aplicacion.CasosDeUso;
-using CGE.Aplicacion.Interfaces;
-using CGE.Aplicacion.Validadores;
-using CGE.Aplicacion.Servicios;
+using CGE.Aplicacion;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -1,7 +1,7 @@
 using CGE.Aplicacion;
 using Microsoft.EntityFrameworkCore;
 
-namespace CGE;
+namespace CGE.Repositorios;
 
 public class CGESqlite{
     public static void Inicializar() {
