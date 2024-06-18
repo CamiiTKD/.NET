@@ -486,9 +486,6 @@
       "CGE.Aplicacion/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v8.0",
-        "dependencies": {
-          "Microsoft.EntityFrameworkCore.Sqlite": "8.0.6"
-        },
         "compile": {
           "bin/placeholder/CGE.Aplicacion.dll": {}
         },

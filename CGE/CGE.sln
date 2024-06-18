@@ -9,15 +9,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CGE.Repositorios", "CGE.Rep
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CGE.Consola", "CGE.Consola\CGE.Consola.csproj", "{C673FF2C-3043-41AE-9918-5D6880792BE6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CGE.UI", "CGE.UI\CGE.UI.csproj", "{8845CDFE-7FE4-455A-BF1C-D4FC6CE86DB4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CGE.UI", "CGE.UI\CGE.UI.csproj", "{2A68DFEC-E1A3-4C95-A866-C1F1D8C40FF7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{BC30B6AC-1F7C-4653-A063-3987725DA3EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -32,9 +29,12 @@ Global
 		{C673FF2C-3043-41AE-9918-5D6880792BE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C673FF2C-3043-41AE-9918-5D6880792BE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C673FF2C-3043-41AE-9918-5D6880792BE6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8845CDFE-7FE4-455A-BF1C-D4FC6CE86DB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8845CDFE-7FE4-455A-BF1C-D4FC6CE86DB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8845CDFE-7FE4-455A-BF1C-D4FC6CE86DB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8845CDFE-7FE4-455A-BF1C-D4FC6CE86DB4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A68DFEC-E1A3-4C95-A866-C1F1D8C40FF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A68DFEC-E1A3-4C95-A866-C1F1D8C40FF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A68DFEC-E1A3-4C95-A866-C1F1D8C40FF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A68DFEC-E1A3-4C95-A866-C1F1D8C40FF7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 EndGlobal
