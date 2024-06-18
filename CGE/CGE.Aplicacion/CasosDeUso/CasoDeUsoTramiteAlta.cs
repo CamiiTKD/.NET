@@ -11,9 +11,9 @@ public class CasoDeUsoTramiteAlta(ITramiteRepositorio repoTra, IExpedienteReposi
                 Expediente expediente = repoExp.consultaPorId(tramite.ExpedienteId);
                 expediente.AgregarEnLista(tramite);
                 repoTra.darDeAltaTramite(tramite);
-                EstadoExpediente estadoPrevio = expediente.estado;
+                EstadoExpediente estadoPrevio = expediente.Estado;
                 servicio.ActualizarEstado(expediente);
-                EstadoExpediente estadoNuevo = expediente.estado;
+                EstadoExpediente estadoNuevo = expediente.Estado;
                 if (estadoNuevo != estadoPrevio)
                 {
                     repoExp.ModificarExpediente(expediente);

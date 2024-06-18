@@ -1,0 +1,28 @@
+@page "/cliente/{Id:int?}"
+@rendermode InteractiveServer
+@inject CasoDeUsoUsuarioConsultaPorId CasoDeUsoUsuarioConsultaPorId
+@inject CasoDeUsoUsuarioModificacion CasoDeUsoUsuarioModificacion
+@inject NavigationManager Navegador
+
+<h3>Modificando al Cliente "@_user.nombre"</h3>
+
+<input placeholder="Nombre" @bind="_user.nombre" class="form-control">
+<input placeholder="Apellido" @bind="_user.apellido" class="form-control">
+<button class="btn btn-primary" @onclick="Aceptar">Aceptar</button>
+
+@code {
+    Usuario _user = new Usuario();
+    [Parameter] public int? Id { get; set; }
+    protected override void OnParametersSet()
+    {
+        if (Id != null)
+        {
+            _user = CasoDeUsoUsuarioConsultaPorId.EjecutarConsulta(Id.Value);
+        }
+    }
+    void Aceptar()
+    {
+        CasoDeUsoUsuarioModificacion.EjecutarModificarUsuario(_user);
+        Navegador.NavigateTo("listadoclientes");
+    }
+}

@@ -1,5 +1,6 @@
 @page "/listadoclientes"
 @rendermode InteractiveServer
+@inject NavigationManager Navegador;
 @inject CasoDeUsoListarUsuarios CasoDeUsoListarUsuarios
 @inject CasoDeUsoUsuarioBaja CasoDeUsoUsuarioBaja
 
@@ -22,7 +23,7 @@
                 <td>@u.nombre</td>
                 <td>@u.apellido</td>
                 <td>
-                    <button class="btn btn-primary">
+                    <button class="btn btn-primary" @onclick="()=>ModificarUsuario(u)">
                         Editar
                     </button>
                     <button class="btn btn-danger" @onclick="()=>ConfirmarEliminacion(u)">
@@ -51,5 +52,10 @@
     {
         CasoDeUsoUsuarioBaja.EjecutarUsuarioBaja(u.id);
         _lista = CasoDeUsoListarUsuarios.EjecutarListado();
+    }
+
+    void ModificarCliente(Usuario u)
+    {
+        Navegador.NavigateTo($"cliente/{u.id}");
     }
 }

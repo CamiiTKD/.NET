@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Mateo Matus\\Desktop\\2do año\\PROYECTO\\.Net\\CGE\\CGE.Repositorios\\CGE.Repositorios.csproj": {}
+    "C:\\Users\\camit\\Facultad\\.Net\\.Net\\.NET\\CGE\\CGE.Repositorios\\CGE.Repositorios.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Mateo Matus\\Desktop\\2do año\\PROYECTO\\.NET\\CGE\\CGE.Aplicacion\\CGE.Aplicacion.csproj": {
+    "C:\\Users\\camit\\Facultad\\.Net\\.Net\\.NET\\CGE\\CGE.Aplicacion\\CGE.Aplicacion.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Mateo Matus\\Desktop\\2do año\\PROYECTO\\.NET\\CGE\\CGE.Aplicacion\\CGE.Aplicacion.csproj",
+        "projectUniqueName": "C:\\Users\\camit\\Facultad\\.Net\\.Net\\.NET\\CGE\\CGE.Aplicacion\\CGE.Aplicacion.csproj",
         "projectName": "CGE.Aplicacion",
-        "projectPath": "C:\\Users\\Mateo Matus\\Desktop\\2do año\\PROYECTO\\.NET\\CGE\\CGE.Aplicacion\\CGE.Aplicacion.csproj",
-        "packagesPath": "C:\\Users\\Mateo Matus\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Mateo Matus\\Desktop\\2do año\\PROYECTO\\.NET\\CGE\\CGE.Aplicacion\\obj\\",
+        "projectPath": "C:\\Users\\camit\\Facultad\\.Net\\.Net\\.NET\\CGE\\CGE.Aplicacion\\CGE.Aplicacion.csproj",
+        "packagesPath": "C:\\Users\\camit\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\camit\\Facultad\\.Net\\.Net\\.NET\\CGE\\CGE.Aplicacion\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Mateo Matus\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\camit\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -58,21 +58,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.201/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\Mateo Matus\\Desktop\\2do año\\PROYECTO\\.Net\\CGE\\CGE.Repositorios\\CGE.Repositorios.csproj": {
+    "C:\\Users\\camit\\Facultad\\.Net\\.Net\\.NET\\CGE\\CGE.Repositorios\\CGE.Repositorios.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Mateo Matus\\Desktop\\2do año\\PROYECTO\\.Net\\CGE\\CGE.Repositorios\\CGE.Repositorios.csproj",
+        "projectUniqueName": "C:\\Users\\camit\\Facultad\\.Net\\.Net\\.NET\\CGE\\CGE.Repositorios\\CGE.Repositorios.csproj",
         "projectName": "CGE.Repositorios",
-        "projectPath": "C:\\Users\\Mateo Matus\\Desktop\\2do año\\PROYECTO\\.Net\\CGE\\CGE.Repositorios\\CGE.Repositorios.csproj",
-        "packagesPath": "C:\\Users\\Mateo Matus\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Mateo Matus\\Desktop\\2do año\\PROYECTO\\.Net\\CGE\\CGE.Repositorios\\obj\\",
+        "projectPath": "C:\\Users\\camit\\Facultad\\.Net\\.Net\\.NET\\CGE\\CGE.Repositorios\\CGE.Repositorios.csproj",
+        "packagesPath": "C:\\Users\\camit\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\camit\\Facultad\\.Net\\.Net\\.NET\\CGE\\CGE.Repositorios\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Mateo Matus\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\camit\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -84,8 +84,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\Mateo Matus\\Desktop\\2do año\\PROYECTO\\.NET\\CGE\\CGE.Aplicacion\\CGE.Aplicacion.csproj": {
-                "projectPath": "C:\\Users\\Mateo Matus\\Desktop\\2do año\\PROYECTO\\.NET\\CGE\\CGE.Aplicacion\\CGE.Aplicacion.csproj"
+              "C:\\Users\\camit\\Facultad\\.Net\\.Net\\.NET\\CGE\\CGE.Aplicacion\\CGE.Aplicacion.csproj": {
+                "projectPath": "C:\\Users\\camit\\Facultad\\.Net\\.Net\\.NET\\CGE\\CGE.Aplicacion\\CGE.Aplicacion.csproj"
               }
             }
           }
@@ -126,7 +126,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.201/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

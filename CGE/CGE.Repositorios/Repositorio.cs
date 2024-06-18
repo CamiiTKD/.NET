@@ -14,6 +14,7 @@ public class Repositorio : IExpedienteRepositorio, ITramiteRepositorio, IUsuario
     {
         idExpediente = buscarUltimoIdExpediente();
         idTramite = buscarUltimoIdTramite();
+        this.contexto = contexto;
     }
 
     // >>>>>>>>>>>>>>>>>>>>>>>EXPEDIENTES<<<<<<<<<<<<<<<<<<<<<<<<
@@ -43,11 +44,11 @@ public class Repositorio : IExpedienteRepositorio, ITramiteRepositorio, IUsuario
         expediente.Id = idExpediente;
         using var sw = new StreamWriter(nombreArchivoExpedientes, true);
         sw.WriteLine(expediente.Id);
-        sw.WriteLine(expediente.caratula);
-        sw.WriteLine(expediente.creacion);
-        sw.WriteLine(expediente.ultimaModificacion);
+        sw.WriteLine(expediente.Caratula);
+        sw.WriteLine(expediente.Creacion);
+        sw.WriteLine(expediente.UltimaModificacion);
         sw.WriteLine(expediente.IdUsuario);
-        sw.WriteLine(expediente.estado);
+        sw.WriteLine(expediente.Estado);
     }
     public void darDeBajaExpediente(int IdExpediente)
     {
@@ -186,7 +187,6 @@ public class Repositorio : IExpedienteRepositorio, ITramiteRepositorio, IUsuario
     {
         contexto.Add(tramite);
         contexto.SaveChanges();
-        // idTramite = buscarUltimoIdTramite() + 1; TENGO QUE SEGUIR INCREMENTANDO O ES AUTOMÁTICO EN SQLITE?
     }
     public void darDeBajaTramite(int idTramite)
     {
@@ -282,6 +282,15 @@ public class Repositorio : IExpedienteRepositorio, ITramiteRepositorio, IUsuario
     }
     public void ModificarUsuario(Usuario usuario)
     {
-
+        var usuarioModificar = contexto.Usuarios.Where(
+                                u => u.id==usuario.id).SingleOrDefault();
+        usuarioModificar=usuario;
+        contexto.SaveChanges();
+        //NOSE SI ANDA XD
+    }
+    public Usuario? ConsultaUsuario(int Id){
+        var usuario = contexto.Usuarios.Where(
+                        u => u.id==Id).SingleOrDefault();
+        return usuario;
     }
 }

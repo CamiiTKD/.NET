@@ -3,21 +3,21 @@ public class ServicioActualizacionEstado
 {
     public void ActualizarEstado(Expediente expediente)         
     {
-        if (expediente.tramites != null && expediente.tramites.Count() > 0)
+        if (expediente.Tramites != null && expediente.Tramites.Count() > 0)
         { 
-            int cantidadTramites = expediente.tramites.Count();
-            Tramite tramiteTemporal = expediente.tramites[cantidadTramites - 1];
+            int cantidadTramites = expediente.Tramites.Count();
+            Tramite tramiteTemporal = expediente.Tramites[cantidadTramites - 1];
 
-            switch (tramiteTemporal.tipo)
+            switch (tramiteTemporal.Tipo)
             {
                 case EtiquetaTramite.Resolucion:
-                    expediente.estado = EstadoExpediente.Con_Resolucion;
+                    expediente.Estado = EstadoExpediente.Con_Resolucion;
                     break;
                 case EtiquetaTramite.Pase_A_Estudio:
-                    expediente.estado = EstadoExpediente.Para_Resolver;
+                    expediente.Estado = EstadoExpediente.Para_Resolver;
                     break;
                 case EtiquetaTramite.Pase_Al_Archivo:
-                    expediente.estado = EstadoExpediente.Finalizado;
+                    expediente.Estado = EstadoExpediente.Finalizado;
                     break;
                 default:
                     break;

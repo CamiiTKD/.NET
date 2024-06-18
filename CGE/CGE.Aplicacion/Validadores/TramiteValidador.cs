@@ -4,7 +4,7 @@ public class TramiteValidador
     public bool Validar(Tramite tramite)
     {
         string mensajeError = "";
-        if (string.IsNullOrWhiteSpace(tramite.contenido))
+        if (string.IsNullOrWhiteSpace(tramite.Contenido))
         {
             mensajeError = "El contenido debe contener texto.\n";
         }
