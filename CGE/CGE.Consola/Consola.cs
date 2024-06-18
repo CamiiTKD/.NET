@@ -1,6 +1,11 @@
+using CGE;
 using CGE.Aplicacion;
 using CGE.Repositorios;
 using System.Threading; //para time sleep, no sera lo mas comodo para el usuario pero es mejor que nada
+
+CGESqlite.Inicializar();
+
+using (var context = new CGEContext()){
 
 const int idUsuario = 1;
 
@@ -305,4 +310,5 @@ EtiquetaTramite ElegirEtiqueta()
         default:
             throw new Exception("Opcion invalida");
     }
+}
 }

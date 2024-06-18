@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\mastr\\OneDrive\\Escritorio\\DotNet\\proyectosDotnet\\Project\\.Net\\CGE\\CGE.Aplicacion\\CGE.Aplicacion.csproj": {}
+    "C:\\Users\\camit\\Facultad\\.Net\\.Net\\.NET\\CGE\\CGE.Aplicacion\\CGE.Aplicacion.csproj": {}
   },
   "projects": {
-    "C:\\Users\\mastr\\OneDrive\\Escritorio\\DotNet\\proyectosDotnet\\Project\\.Net\\CGE\\CGE.Aplicacion\\CGE.Aplicacion.csproj": {
+    "C:\\Users\\camit\\Facultad\\.Net\\.Net\\.NET\\CGE\\CGE.Aplicacion\\CGE.Aplicacion.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\mastr\\OneDrive\\Escritorio\\DotNet\\proyectosDotnet\\Project\\.Net\\CGE\\CGE.Aplicacion\\CGE.Aplicacion.csproj",
+        "projectUniqueName": "C:\\Users\\camit\\Facultad\\.Net\\.Net\\.NET\\CGE\\CGE.Aplicacion\\CGE.Aplicacion.csproj",
         "projectName": "CGE.Aplicacion",
-        "projectPath": "C:\\Users\\mastr\\OneDrive\\Escritorio\\DotNet\\proyectosDotnet\\Project\\.Net\\CGE\\CGE.Aplicacion\\CGE.Aplicacion.csproj",
-        "packagesPath": "C:\\Users\\mastr\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\mastr\\OneDrive\\Escritorio\\DotNet\\proyectosDotnet\\Project\\.Net\\CGE\\CGE.Aplicacion\\obj\\",
+        "projectPath": "C:\\Users\\camit\\Facultad\\.Net\\.Net\\.NET\\CGE\\CGE.Aplicacion\\CGE.Aplicacion.csproj",
+        "packagesPath": "C:\\Users\\camit\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\camit\\Facultad\\.Net\\.Net\\.NET\\CGE\\CGE.Aplicacion\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\mastr\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\camit\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -42,6 +42,12 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore.Sqlite": {
+              "target": "Package",
+              "version": "[8.0.6, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",

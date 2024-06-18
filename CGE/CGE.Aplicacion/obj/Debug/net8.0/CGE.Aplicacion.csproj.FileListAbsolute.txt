@@ -22,3 +22,16 @@ C:\Users\mastr\OneDrive\Escritorio\DotNet\proyectosDotnet\Project\.Net\CGE\CGE.A
 C:\Users\mastr\OneDrive\Escritorio\DotNet\proyectosDotnet\Project\.Net\CGE\CGE.Aplicacion\obj\Debug\net8.0\refint\CGE.Aplicacion.dll
 C:\Users\mastr\OneDrive\Escritorio\DotNet\proyectosDotnet\Project\.Net\CGE\CGE.Aplicacion\obj\Debug\net8.0\CGE.Aplicacion.pdb
 C:\Users\mastr\OneDrive\Escritorio\DotNet\proyectosDotnet\Project\.Net\CGE\CGE.Aplicacion\obj\Debug\net8.0\ref\CGE.Aplicacion.dll
+C:\Users\camit\Facultad\.Net\.Net\.NET\CGE\CGE.Aplicacion\bin\Debug\net8.0\CGE.Aplicacion.deps.json
+C:\Users\camit\Facultad\.Net\.Net\.NET\CGE\CGE.Aplicacion\bin\Debug\net8.0\CGE.Aplicacion.dll
+C:\Users\camit\Facultad\.Net\.Net\.NET\CGE\CGE.Aplicacion\bin\Debug\net8.0\CGE.Aplicacion.pdb
+C:\Users\camit\Facultad\.Net\.Net\.NET\CGE\CGE.Aplicacion\obj\Debug\net8.0\CGE.Aplicacion.csproj.AssemblyReference.cache
+C:\Users\camit\Facultad\.Net\.Net\.NET\CGE\CGE.Aplicacion\obj\Debug\net8.0\CGE.Aplicacion.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\camit\Facultad\.Net\.Net\.NET\CGE\CGE.Aplicacion\obj\Debug\net8.0\CGE.Aplicacion.AssemblyInfoInputs.cache
+C:\Users\camit\Facultad\.Net\.Net\.NET\CGE\CGE.Aplicacion\obj\Debug\net8.0\CGE.Aplicacion.AssemblyInfo.cs
+C:\Users\camit\Facultad\.Net\.Net\.NET\CGE\CGE.Aplicacion\obj\Debug\net8.0\CGE.Aplicacion.csproj.CoreCompileInputs.cache
+C:\Users\camit\Facultad\.Net\.Net\.NET\CGE\CGE.Aplicacion\obj\Debug\net8.0\CGE.Aplicacion.sourcelink.json
+C:\Users\camit\Facultad\.Net\.Net\.NET\CGE\CGE.Aplicacion\obj\Debug\net8.0\CGE.Aplicacion.dll
+C:\Users\camit\Facultad\.Net\.Net\.NET\CGE\CGE.Aplicacion\obj\Debug\net8.0\refint\CGE.Aplicacion.dll
+C:\Users\camit\Facultad\.Net\.Net\.NET\CGE\CGE.Aplicacion\obj\Debug\net8.0\CGE.Aplicacion.pdb
+C:\Users\camit\Facultad\.Net\.Net\.NET\CGE\CGE.Aplicacion\obj\Debug\net8.0\ref\CGE.Aplicacion.dll
