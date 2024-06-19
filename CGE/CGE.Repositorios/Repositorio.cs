@@ -1,21 +1,15 @@
 namespace CGE.Repositorios;
 
 using Aplicacion;
-using System.Security.Cryptography;
-using System.Text;
-using System;
+
 
 public class Repositorio : IExpedienteRepositorio, ITramiteRepositorio, IUsuarioRepositorio
 {
-    readonly string nombreArchivoExpedientes = "..\\CGE.Repositorios\\BaseDeDatos_Expedientes.txt";
-    readonly string nombreArchivoTramites = "..\\CGE.Repositorios\\BaseDeDatos_Tramites.txt";
     public CGEContext contexto;
     public static int idExpediente;
     public static int idTramite;
     public Repositorio(CGEContext contexto)
     {
-        idExpediente = buscarUltimoIdExpediente();
-        idTramite = buscarUltimoIdTramite();
         this.contexto = contexto;
     }
 
@@ -40,45 +34,26 @@ public class Repositorio : IExpedienteRepositorio, ITramiteRepositorio, IUsuario
         List<Expediente> ListaExpedientes = contexto.Expedientes.ToList();
         return ListaExpedientes;
     }
+
     public void darDeAltaExpediente(Expediente expediente)
     {
-        idExpediente = buscarUltimoIdExpediente() + 1;
-        expediente.Id = idExpediente;
-        using var sw = new StreamWriter(nombreArchivoExpedientes, true);
-        sw.WriteLine(expediente.Id);
-        sw.WriteLine(expediente.Caratula);
-        sw.WriteLine(expediente.Creacion);
-        sw.WriteLine(expediente.UltimaModificacion);
-        sw.WriteLine(expediente.IdUsuario);
-        sw.WriteLine(expediente.Estado);
+        contexto.Add(expediente);
+        contexto.SaveChanges();
     }
+
     public void darDeBajaExpediente(int IdExpediente)
     {
-        string archivoTemporal = Path.GetTempFileName();
-        string ID = Convert.ToString(IdExpediente);
-        string? datoLeido;
-        using (StreamReader sr = new StreamReader(nombreArchivoExpedientes))
-        using (StreamWriter sw = new StreamWriter(archivoTemporal))
-            while (!sr.EndOfStream)
-            {
-                datoLeido = sr.ReadLine();
-                if (datoLeido == null)
-                {
-                    throw new Exception("No se leyó ningún dato");
-                }
-                if (datoLeido.Equals(ID)) for (int i = 0; i < 5; i++) sr.ReadLine();
-                else
-                {
-                    for (int i = 0; i < 5; i++)
-                    {
-                        sw.WriteLine(datoLeido);
-                        datoLeido = sr.ReadLine();
-                    }
-                    sw.WriteLine(datoLeido);
-                }
-            }
-        File.Copy(archivoTemporal, nombreArchivoExpedientes, true);
-        File.Delete(archivoTemporal);
+        var expediente = contexto.Expedientes.Find(IdExpediente);
+        if (expediente != null)
+        {
+            contexto.Expedientes.Remove(expediente);
+            contexto.SaveChanges();
+        }
+        else
+        {
+            new RepositorioException
+            ($"No existe el expediente con ID: {IdExpediente}. No es posible eliminar");
+        }
     }
 
     public void ModificarExpediente(Expediente expediente)
@@ -96,34 +71,6 @@ public class Repositorio : IExpedienteRepositorio, ITramiteRepositorio, IUsuario
         {
             new RepositorioException
             ($"No existe el expediente con ID: {expediente.Id}, que desea modificar.");
-        }
-    }
-
-    public int buscarUltimoIdExpediente() //Se sigue necesitando en entrega final?
-    {
-        string? id = null; //le asignamos null porque sino tira error de compilacion en la variable id.
-        using (StreamReader sr = new StreamReader(nombreArchivoExpedientes))
-        {
-            string? str = sr.ReadToEnd();
-            if (string.IsNullOrWhiteSpace(str))
-            {
-                return 0;
-            }
-            sr.BaseStream.Seek(0, SeekOrigin.Begin);
-            while (!sr.EndOfStream)
-            {
-                id = sr.ReadLine();
-                for (int i = 0; i < 5; i++)
-                {
-                    sr.ReadLine();
-                }
-            }
-            if (id != null)
-            {
-                return int.Parse(id);
-            }
-            new RepositorioException("no leyó nada");
-            return -1; //no llega acá, sale en la exception
         }
     }
 
@@ -145,46 +92,12 @@ public class Repositorio : IExpedienteRepositorio, ITramiteRepositorio, IUsuario
 
     public List<Tramite> ConsultaEtiqueta(EtiquetaTramite etiqueta)
     {
-        List<Tramite> lista = new List<Tramite>();
-        using (StreamReader sr = new StreamReader(nombreArchivoTramites))
-        {
-            string? line;
-            while (!sr.EndOfStream)
-            {
-                int idTramite = int.Parse(sr.ReadLine() ?? "");
-                int idExpediente = int.Parse(sr.ReadLine() ?? "");
-                line = sr.ReadLine();
-                while ((!sr.EndOfStream) && (line != etiqueta.ToString()))
-                {
-                    for (int i = 0; i < 4; i++)
-                    {
-                        sr.ReadLine();
-                    }
-                    if (!sr.EndOfStream)
-                    {
-                        idTramite = int.Parse(sr.ReadLine() ?? "");
-                        idExpediente = int.Parse(sr.ReadLine() ?? "");
-                        line = sr.ReadLine();
-                    }
-                }
-                if (!sr.EndOfStream)
-                {
-                    EtiquetaTramite etq = Enum.Parse<EtiquetaTramite>(line ?? "");
-                    string contenido = sr.ReadLine() ?? "";
-                    DateTime creacion = DateTime.Parse(sr.ReadLine() ?? "");
-                    DateTime ultimaMod = DateTime.Parse(sr.ReadLine() ?? "");
-                    int idUsuario = int.Parse(sr.ReadLine() ?? "");
-                    Tramite tramite = new Tramite(idTramite, idExpediente, etq, contenido, creacion, ultimaMod, idUsuario);
-                    lista.Add(tramite);
-                }
-            }
-            if (lista.Count() == 0)
-            {
-                throw new RepositorioException($"No existe ningun tramite con la etiqueta {etiqueta}");
-            }
-        }
-        return lista;
+        List<Tramite> listaTramites = contexto.Tramites.
+                                Where(t => t.Tipo == etiqueta)
+                                .ToList();
+        return listaTramites;
     }
+
     public void darDeAltaTramite(Tramite tramite)
     {
         contexto.Add(tramite);
@@ -211,7 +124,7 @@ public class Repositorio : IExpedienteRepositorio, ITramiteRepositorio, IUsuario
     {
         var tramiteExistente = contexto.Tramites.Find(tramite.Id); //Si no lo encuentra devuelve null.
         if (tramiteExistente != null)
-        { //Si lo encuentra modifico lo pertinente.
+        { //Si lo encuentra modifico lo pertinente, lo demás no necesita modificarse.
             tramiteExistente.Tipo = tramite.Tipo;
             tramiteExistente.Contenido = tramite.Contenido;
             tramiteExistente.UltimaModificacion = tramite.UltimaModificacion;
@@ -231,56 +144,18 @@ public class Repositorio : IExpedienteRepositorio, ITramiteRepositorio, IUsuario
         return listaTramites;
     }
 
-    private int buscarUltimoIdTramite()
-    {
-        string? id = null;
-        using (StreamReader sr = new StreamReader(nombreArchivoTramites))
-        {
-            string? str = sr.ReadToEnd();
-            if (string.IsNullOrWhiteSpace(str))
-            {
-                return 0;
-            }
-            sr.BaseStream.Seek(0, SeekOrigin.Begin);
-            while (!sr.EndOfStream)
-            {
-                id = sr.ReadLine();
-                for (int i = 0; i < 6; i++)
-                {
-                    sr.ReadLine();
-                }
-            }
-            if (id != null)
-            {
-                return int.Parse(id);
-            }
-            new RepositorioException("no leyó nada");
-            return -1; //no llega acá, sale en la exception
-        }
-    }
 
     // >>>>>>>>>>>>>>>>>>>>>>>USUARIOS<<<<<<<<<<<<<<<<<<<<<<<<
 
     public List<Usuario> consultaUsuarios()
     {
+        Console.WriteLine("Entró al método de consulta usuarios.");
         return contexto.Usuarios.ToList();
     }
     public void darDeAltaUsuario(Usuario u)
     {
-        using (SHA256 sha256Hash = SHA256.Create())
-        {
-            // Computar el hash - retorna un array de bytes
-            byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(u.contraseña));
-
-            // Convertir el array de bytes a una cadena hexadecimal
-            StringBuilder builder = new StringBuilder();
-            for (int i = 0; i < bytes.Length; i++)
-            {
-                builder.Append(bytes[i].ToString("x2"));
-            }
-            u.contraseña=builder.ToString();
-        }
         contexto.Add(u);
+        //falta codificar la contraseña
         contexto.SaveChanges();
     }
     public void darDeBajaUsuario(int idBorrar)
@@ -296,14 +171,15 @@ public class Repositorio : IExpedienteRepositorio, ITramiteRepositorio, IUsuario
     public void ModificarUsuario(Usuario usuario)
     {
         var usuarioModificar = contexto.Usuarios.Where(
-                                u => u.id==usuario.id).SingleOrDefault();
-        usuarioModificar=usuario;
+                                u => u.id == usuario.id).SingleOrDefault();
+        usuarioModificar = usuario;
         contexto.SaveChanges();
         //NOSE SI ANDA XD
     }
-    public Usuario? ConsultaUsuario(int Id){
+    public Usuario? ConsultaUsuario(int Id)
+    {
         var usuario = contexto.Usuarios.Where(
-                        u => u.id==Id).SingleOrDefault();
+                        u => u.id == Id).SingleOrDefault();
         return usuario;
     }
 }
