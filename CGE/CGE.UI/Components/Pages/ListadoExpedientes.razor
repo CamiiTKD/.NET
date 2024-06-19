@@ -1,57 +1,84 @@
-@page "/{Id:int?}/listadoexpedientes"
+@page "/usuario/{Id:int?}/listadoexpedientes"
 @rendermode InteractiveServer
 @inject NavigationManager Navegador;
 @inject CasoDeUsoExpedienteBaja CasoDeUsoExpedienteBaja;
 @inject CasoDeUsoExpedienteConsultaTodos CasoDeUsoListarExpedientes;
-@*pq no se marca blanco?*@
+@inject CasoDeUsoExpedienteConsultaPorId CasoDeUsoListarId;
+@inject ExpedienteCompartido ExpedienteSeleccionado;
 
 <DialogoConfirmacion @ref="dialogo" />
 
-<table class=table <thead>
-    <tr>
-        <th>ID</th>
-        <th>CARÁTULA</th>
-        <th>CREACIÓN</th>
-        <th>ESTADO</th>
-        <th>ACCIÓN</th>
-            @* Añadir opción para listar
-        tramites que redirija
-        a ListadoTramites. *@
-    </tr>
-    </thead>
-
-    <tbody>
-        @foreach (var e in _lista)
-        {
-            <tr>
-                <td>@e.Id</td>
-                <td>@e.Caratula</td>
-                <td>@e.Creacion</td>
-                <td>@e.Estado</td>
-                <td>
-                    <button class="btn btn-primary" @onclick="()=>RedirigirListadoTramites(e)">
-                        Ver Trámites
-                    </button>
-                    <button class="btn btn-danger" @onclick="()=>ConfirmarEliminacionExpediente(e)">
-                        Eliminar
-                    </button>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+<tbody>
+    @if (_lista.Count() > 0)
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>CARÁTULA</th>
+                    <th>CREACIÓN</th>
+                    <th>ESTADO</th>
+                    <th>ACCIÓN</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var e in _lista)
+                {
+                    <tr>
+                        <td>@e.Id</td>
+                        <td>@e.Caratula</td>
+                        <td>@e.Creacion</td>
+                        <td>@e.Estado</td>
+                        <td>
+                            <button class="btn btn-primary" @onclick="() => RedirigirListadoTramites(e)">
+                                Ver Trámites
+                            </button>
+                            <button class="btn btn-secondary" @onclick="() => RedirigirModificarExpediente(e)">
+                                Modificar
+                            </button>
+                            <button class="btn btn-danger" @onclick="() => ConfirmarEliminacionExpediente(e)">
+                                Eliminar
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <h3>No se encontraron expedientes asociados al usuario</h3>
+    }
+</tbody>
 
 @code {
     List<Expediente> _lista = new List<Expediente>();
+    [Parameter] public int? Id { get; set; }
     protected override void OnInitialized()
     {
+        @*necesito ID usuario, si es 1 consulto todos, si es distinta, consulta por ID
+if (u.id == 1)
+{
+_lista = CasoDeUsoListarExpedientes.EjecutarConsultarTodos();
+}
+else
+{
+Expediente exp = CasoDeUsoListarId.EjecutarConsultarPorId(u.id);
+_lista.Add(exp);
+}*@
         _lista = CasoDeUsoListarExpedientes.EjecutarConsultarTodos();
     }
 
     private void RedirigirListadoTramites(Expediente e)
     {
         Navegador.NavigateTo($"expediente/{e.Id}/listadotramites"); @* Falta crear pagina de listado de tramites.
-        La direccion debe incluir el usuario?*@
+La direccion debe incluir el usuario?*@
+    }
+
+    private void RedirigirModificarExpediente(Expediente e)
+    {
+        ExpedienteSeleccionado.e = e;
+        Navegador.NavigateTo($"expediente/{e.Id}/editar");
     }
 
     DialogoConfirmacion dialogo = null!;
@@ -66,8 +93,8 @@
     {
         @*CasoDeUsoExpedienteBaja.EjecutarExpedienteBaja(e.Id);*@
         @*Tengo que pasar usuario "u" que sea el admin
-        (el actual, único que puede entrar a esta pagina).
-        Pero no se como están hechos los permisos ni como se pasa.*@
+(el actual, único que puede entrar a esta pagina).
+Pero no se como están hechos los permisos ni como se pasa.*@
         _lista = CasoDeUsoListarExpedientes.EjecutarConsultarTodos();
     }
 }
