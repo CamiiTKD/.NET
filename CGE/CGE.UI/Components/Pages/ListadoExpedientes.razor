@@ -1,7 +1,8 @@
-@page "/usuario/{Id:int?}/listadoexpedientes"
+@page "/usuario/{IdUsuario:int?}/listadoexpedientes"
 @rendermode InteractiveServer
 @inject NavigationManager Navegador;
 @inject CasoDeUsoExpedienteBaja CasoDeUsoExpedienteBaja;
+@inject CasoDeUsoExpedienteAlta CasoDeUsoExpedienteAlta;
 @inject CasoDeUsoExpedienteConsultaTodos CasoDeUsoListarExpedientes;
 @inject CasoDeUsoExpedienteConsultaPorId CasoDeUsoListarId;
 @inject ExpedienteCompartido ExpedienteSeleccionado;
@@ -48,12 +49,20 @@
     else
     {
         <h3>No se encontraron expedientes asociados al usuario</h3>
+        <PageTitle>Crear expediente</PageTitle>
+
+        <input placeholder="Carátula" @bind="_caratula" />
+
+        <br>
+        <button @onclick="DarDeAltaExpediente(_caratula)">Aceptar</button> @*falta usuario*@
+
     }
 </tbody>
 
 @code {
     List<Expediente> _lista = new List<Expediente>();
-    [Parameter] public int? Id { get; set; }
+    string _caratula;
+    [Parameter] public int? IdUsuario { get; set; }
     protected override void OnInitialized()
     {
         @*necesito ID usuario, si es 1 consulto todos, si es distinta, consulta por ID
@@ -68,10 +77,15 @@ _lista.Add(exp);
 }*@
         _lista = CasoDeUsoListarExpedientes.EjecutarConsultarTodos();
     }
-
+    private void DarDeAltaExpediente(string caratula, Usuario usuario)
+    {
+        Expediente expediente = new Expediente(caratula, usuario.id);
+        CasoDeUsoExpedienteAlta.EjecutarExpedienteAlta(expediente, usuario);
+    }
     private void RedirigirListadoTramites(Expediente e)
     {
-        Navegador.NavigateTo($"expediente/{e.Id}/listadotramites"); @* Falta crear pagina de listado de tramites.
+        Navegador.NavigateTo($"usuario/{IdUsuario}/listadoexpedientes/{e.Id}/listadotramites");
+        @* Faltacrear pagina de listado de tramites.
 La direccion debe incluir el usuario?*@
     }
 
