@@ -12,7 +12,6 @@
     <Folder Include="Enumerativos\" />
     <Folder Include="Excepciones\" />
     <Folder Include="Interfaces\" />
-    <Folder Include="Servicios\" />
     <Folder Include="Validadores\" />
   </ItemGroup>
 

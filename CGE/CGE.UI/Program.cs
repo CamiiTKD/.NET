@@ -18,6 +18,8 @@ builder.Services.AddTransient<CasoDeUsoExpedienteBaja>();
 builder.Services.AddTransient<CasoDeUsoExpedienteConsultaPorId>();
 builder.Services.AddTransient<CasoDeUsoExpedienteConsultaTodos>();
 builder.Services.AddTransient<CasoDeUsoExpedienteModificacion>();
+
+builder.Services.AddSingleton<ExpedienteCompartido>();
 // TRAMITE
 builder.Services.AddTransient<CasoDeUsoTramiteAlta>();
 builder.Services.AddTransient<CasoDeUsoTramiteBaja>();
