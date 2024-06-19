@@ -24,8 +24,11 @@
                 <td>@u.nombre</td>
                 <td>@u.apellido</td>
                 <td>
-                    <button class="btn btn-primary" @onclick="()=>ModificarUsuario(u)">
+                    <button class="btn btn-primary" @onclick="()=>RedirigirModificarUsuario(u)">
                         Editar
+                    </button>
+                    <button class="btn btn-secondary" @onclick="()=>RedirigirListadoExpedientes(u)">
+                        Ver expedientes
                     </button>
                     <button class="btn btn-danger" @onclick="()=>ConfirmarEliminacion(u)">
                         Eliminar
@@ -47,7 +50,7 @@
     {
         dialogo.OnConfirmado = EventCallback.Factory.Create(this, () => Eliminar(u));
         dialogo.Mensaje = $"¿Desea eliminar al usuario {u.nombre} {u.apellido}?";
-        dialogo.Mostrar();  
+        dialogo.Mostrar();
     }
     private void Eliminar(Usuario u)
     {
@@ -55,8 +58,13 @@
         _lista = CasoDeUsoListarUsuarios.EjecutarListado();
     }
 
-    void ModificarUsuario(Usuario u)
+    private void RedirigirModificarUsuario(Usuario u)
     {
         Navegador.NavigateTo($"usuario/{u.id}");
+    }
+
+    private void RedirigirListadoExpedientes(Usuario u)
+    {
+        Navegador.NavigateTo($"usuario/{u.id}/listadoexpedientes"); @*para cada user puede llamarse "misexpedientes"*@
     }
 }
