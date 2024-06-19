@@ -151,7 +151,6 @@ public class Repositorio : IExpedienteRepositorio, ITramiteRepositorio, IUsuario
 
     public List<Usuario> consultaUsuarios()
     {
-        Console.WriteLine("Entró al método de consulta usuarios.");
         return contexto.Usuarios.ToList();
     }
     public void darDeAltaUsuario(Usuario u)
