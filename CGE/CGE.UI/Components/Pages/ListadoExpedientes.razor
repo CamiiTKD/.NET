@@ -65,8 +65,10 @@ La direccion debe incluir el usuario?*@
 
     private void EliminarExpediente(Expediente e)
     {
-        CasoDeUsoExpedienteBaja.EjecutarExpedienteBaja(e.Id); @*Tengo que pasar usuario "u" que sea el admin
-(el actual, único que puede entrar a esta pagina). Pero no se como están hechos los permisos ni como se pasa.*@
+        CasoDeUsoExpedienteBaja.EjecutarExpedienteBaja(e.Id);
+        @*Tengo que pasar usuario "u" que sea el admin
+(el actual, único que puede entrar a esta pagina).
+Pero no se como están hechos los permisos ni como se pasa.*@
         _lista = CasoDeUsoListarExpedientes.EjecutarConsultarTodos();
     }
 }
