@@ -50,9 +50,8 @@
 
     private void RedirigirListadoTramites(Expediente e)
     {
-        Navegador.NavigateTo($"usuario/{e.Id}/listadoexpedientes/listadotramites"); @* Falta crear pagina de listado de
-tramites.
-La direccion debe incluir el usuario?*@
+        Navegador.NavigateTo($"expediente/{e.Id}/listadotramites"); @* Falta crear pagina de listado de tramites.
+        La direccion debe incluir el usuario?*@
     }
 
     DialogoConfirmacion dialogo = null!;
@@ -65,10 +64,10 @@ La direccion debe incluir el usuario?*@
 
     private void EliminarExpediente(Expediente e)
     {
-        CasoDeUsoExpedienteBaja.EjecutarExpedienteBaja(e.Id);
+        @*CasoDeUsoExpedienteBaja.EjecutarExpedienteBaja(e.Id);*@
         @*Tengo que pasar usuario "u" que sea el admin
-(el actual, único que puede entrar a esta pagina).
-Pero no se como están hechos los permisos ni como se pasa.*@
+        (el actual, único que puede entrar a esta pagina).
+        Pero no se como están hechos los permisos ni como se pasa.*@
         _lista = CasoDeUsoListarExpedientes.EjecutarConsultarTodos();
     }
 }
