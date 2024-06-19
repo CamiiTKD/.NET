@@ -1,0 +1,8 @@
+﻿@page "/usuario/{IdUsuario:int?}/listadoexpedientes/{IdExpediente:int?}/listadotramites"
+@rendermode InteractiveServer
+@inject NavigationManager Navegador;
+@inject CasoDeUsoTramiteBaja CasoDeUsoTramiteBaja
+@code{
+    [Parameter] public int? IdUsuario { get; set; }
+    [Parameter] public int? IdExpediente { get; set; }
+}
