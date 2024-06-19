@@ -1,6 +1,8 @@
 namespace CGE.Repositorios;
 
 using Aplicacion;
+using System.Security.Cryptography;
+using System.Text;
 
 
 public class Repositorio : IExpedienteRepositorio, ITramiteRepositorio, IUsuarioRepositorio
@@ -154,7 +156,7 @@ public class Repositorio : IExpedienteRepositorio, ITramiteRepositorio, IUsuario
     }
     public void darDeAltaUsuario(Usuario u)
     {
-        u.contraseña=FuncionHash(u.contraseña);
+        u.contraseña = FuncionHash(u.contraseña);
         contexto.Add(u);
         contexto.SaveChanges();
     }
@@ -182,28 +184,34 @@ public class Repositorio : IExpedienteRepositorio, ITramiteRepositorio, IUsuario
                         u => u.id == Id).SingleOrDefault();
         return usuario;
     }
-    public Usuario RetornarUsuario (string mail,string contraseña){
+    public Usuario RetornarUsuario(string mail, string contraseña)
+    {
         var usuario = contexto.Usuarios.Where(
-                                u=> u.email==mail).SingleOrDefault();
-        contraseña=FuncionHash(contraseña);
-        if (usuario.contraseña==contraseña){
-            return usuario;
+                                u => u.email == mail).SingleOrDefault();
+        if (usuario != null)
+        {
+            contraseña = FuncionHash(contraseña);
+            if (usuario.contraseña == contraseña)
+            {
+                return usuario;
+            }
         }
         return null;
     }
-    private string FuncionHash (string contraseña){
+    private string FuncionHash(string contraseña)
+    {
         using (SHA256 sha256Hash = SHA256.Create())
         {
-        // Computar el hash - retorna un array de bytes
-        byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(u.contraseña));
+            // Computar el hash - retorna un array de bytes
+            byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(contraseña));
 
-        // Convertir el array de bytes a una cadena hexadecimal
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < bytes.Length; i++)
-        {
-            builder.Append(bytes[i].ToString("x2"));
-        }
-        return builder.ToString();
+            // Convertir el array de bytes a una cadena hexadecimal
+            StringBuilder builder = new StringBuilder();
+            for (int i = 0; i < bytes.Length; i++)
+            {
+                builder.Append(bytes[i].ToString("x2"));
+            }
+            return builder.ToString();
         }
     }
 }

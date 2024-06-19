@@ -1,0 +1,72 @@
+@page "/{Id:int?}/listadoexpedientes"
+@rendermode InteractiveServer
+@inject NavigationManager Navegador;
+@inject CasoDeUsoExpedienteBaja CasoDeUsoExpedienteBaja;
+@inject CasoDeUsoExpedienteConsultaTodos CasoDeUsoListarExpedientes;
+@*pq no se marca blanco?*@
+
+<DialogoConfirmacion @ref="dialogo" />
+
+<table class=table <thead>
+    <tr>
+        <th>ID</th>
+        <th>CARÁTULA</th>
+        <th>CREACIÓN</th>
+        <th>ESTADO</th>
+        <th>ACCIÓN</th>
+            @* Añadir opción para listar
+        tramites que redirija
+        a ListadoTramites. *@
+    </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var e in _lista)
+        {
+            <tr>
+                <td>@e.Id</td>
+                <td>@e.Caratula</td>
+                <td>@e.Creacion</td>
+                <td>@e.Estado</td>
+                <td>
+                    <button class="btn btn-primary" @onclick="()=>RedirigirListadoTramites(e)">
+                        Ver Trámites
+                    </button>
+                    <button class="btn btn-danger" @onclick="()=>ConfirmarEliminacionExpediente(e)">
+                        Eliminar
+                    </button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+    List<Expediente> _lista = new List<Expediente>();
+    protected override void OnInitialized()
+    {
+        _lista = CasoDeUsoListarExpedientes.EjecutarConsultarTodos();
+    }
+
+    private void RedirigirListadoTramites(Expediente e)
+    {
+        Navegador.NavigateTo($"usuario/{e.Id}/listadoexpedientes/listadotramites"); @* Falta crear pagina de listado de
+tramites.
+La direccion debe incluir el usuario?*@
+    }
+
+    DialogoConfirmacion dialogo = null!;
+    private void ConfirmarEliminacionExpediente(Expediente e)
+    {
+        dialogo.OnConfirmado = EventCallback.Factory.Create(this, () => EliminarExpediente(e));
+        dialogo.Mensaje = $"¿Desea eliminar el expediente del usuario {e.Id} junto a todos sus tramites?";
+        dialogo.Mostrar();
+    }
+
+    private void EliminarExpediente(Expediente e)
+    {
+        CasoDeUsoExpedienteBaja.EjecutarExpedienteBaja(e.Id); @*Tengo que pasar usuario "u" que sea el admin
+(el actual, único que puede entrar a esta pagina). Pero no se como están hechos los permisos ni como se pasa.*@
+        _lista = CasoDeUsoListarExpedientes.EjecutarConsultarTodos();
+    }
+}
