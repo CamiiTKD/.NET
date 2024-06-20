@@ -9,12 +9,14 @@ public class CasoDeUsoExpedienteModificacion(IExpedienteRepositorio repoExp, Exp
         }
         bool salir = false;
         Expediente? expediente = repoExp.consultaPorId(idExpediente);
-        if (validador.Validar(expediente))
+        if (expediente != null)
         {
-            servicio.ActualizarEstado(expediente); //No importa lo que ponga el usuario si el tramite ultimo activa un cambio.
-            expediente.ModificarUltimaFecha(usuario.id);
-            repoExp.ModificarExpediente(expediente);
+            if (validador.Validar(expediente))
+            {
+                servicio.ActualizarEstado(expediente); //No importa lo que ponga el usuario si el tramite ultimo activa un cambio.
+                expediente.ModificarUltimaFecha(usuario.id);
+                repoExp.ModificarExpediente(expediente, usuario.id);
+            }
         }
-        expediente = null;
     }
 }

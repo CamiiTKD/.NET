@@ -4,7 +4,8 @@
 @using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
 @using System.Linq;
 @inject ProtectedSessionStorage sessionStorage
-@inject ServicioAutorizacion ServicioAutorizacion
+@inject IServicioAutorizacion ServicioAutorizacion
+@inject IJSRuntime JSRuntime
 
 @inject CasoDeUsoExpedienteBaja CasoDeUsoExpedienteBaja
 @inject CasoDeUsoExpedienteAlta CasoDeUsoExpedienteAlta
@@ -86,25 +87,29 @@
     string? _caratula;
     int userId;
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        _lista = CasoDeUsoListarExpedientes.EjecutarConsultarTodos();
-        var result = await sessionStorage.GetAsync<int>("userId");
-        userId = result.Success ? result.Value : 0;
-        Usuario? user = CasoDeUsoUsuarioConsultaPorId.EjecutarConsulta(userId);
-        if ((user != null) && (user.permisos != null))
+        if (firstRender)
         {
-            if (ServicioAutorizacion.PoseeElPermiso(user.permisos, Permiso.ExpedienteModificacion))
+            _lista = CasoDeUsoListarExpedientes.EjecutarConsultarTodos();
+            var result = await sessionStorage.GetAsync<int>("userId");
+            userId = result.Success ? result.Value : 0;
+            Usuario? user = CasoDeUsoUsuarioConsultaPorId.EjecutarConsulta(userId);
+            if ((user != null) && (user.permisos != null))
             {
-                shouldDisplayModificar = true;
-            }
-            if (ServicioAutorizacion.PoseeElPermiso(user.permisos, Permiso.ExpedienteBaja))
-            {
-                shouldDisplayEliminar = true;
-            }
-            if (ServicioAutorizacion.PoseeElPermiso(user.permisos, Permiso.ExpedienteAlta))
-            {
-                shouldDisplayAlta = true;
+                if (ServicioAutorizacion.PoseeElPermiso(user.permisos, Permiso.ExpedienteModificacion))
+                {
+                    shouldDisplayModificar = true;
+                }
+                if (ServicioAutorizacion.PoseeElPermiso(user.permisos, Permiso.ExpedienteBaja))
+                {
+                    shouldDisplayEliminar = true;
+                }
+                if (ServicioAutorizacion.PoseeElPermiso(user.permisos, Permiso.ExpedienteAlta))
+                {
+                    shouldDisplayAlta = true;
+                }
+                StateHasChanged();
             }
         }
     }
@@ -123,8 +128,7 @@
 
     private void RedirigirModificarExpediente(Expediente e)
     {
-        ExpedienteSeleccionado.e = e;
-        Navegador.NavigateTo($"expediente/{e.Id}/editar");
+        Navegador.NavigateTo($"{e.Id}/modificarexpediente");
     }
     DialogoConfirmacion dialogo = null!;
     private void ConfirmarEliminacionExpediente(Expediente e)
@@ -138,7 +142,7 @@
     {
         Usuario? user = CasoDeUsoUsuarioConsultaPorId.EjecutarConsulta(userId);
         CasoDeUsoExpedienteBaja.EjecutarExpedienteBaja(e.Id, user);
-        _lista = CasoDeUsoListarExpedientes.EjecutarConsultarTodos(e.Id, user);
+        _lista = CasoDeUsoListarExpedientes.EjecutarConsultarTodos();
         Navegador.NavigateTo($"listadoexpedientes");
     }
 }
