@@ -17,7 +17,8 @@
 <PageTitle>Expedientes</PageTitle>
 
 <tbody>
-    @if (_lista.Count() > 0) {
+    @if (_lista.Count() > 0)
+    {
         <h1>Expedientes</h1>
         <table class="table">
             <thead>
@@ -41,12 +42,14 @@
                             <button class="btn btn-primary" @onclick="() => RedirigirListadoTramites(e)">
                                 Ver Trámites
                             </button>
-                            @if(shouldDisplayModificar){
+                            @if (shouldDisplayModificar)
+                            {
                                 <button class="btn btn-secondary" @onclick="() => RedirigirModificarExpediente(e)">
                                     Modificar
                                 </button>
                             }
-                            @if(shouldDisplayEliminar){
+                            @if (shouldDisplayEliminar)
+                            {
                                 <button class="btn btn-danger" @onclick="() => ConfirmarEliminacionExpediente(e)">
                                     Eliminar
                                 </button>
@@ -57,17 +60,21 @@
             </tbody>
         </table>
     }
-    else {
+    else
+    {
         <h3>No se han cargado expedientes por el momento</h3>
     }
-    @if (shouldDisplayAlta) {
+    @if (shouldDisplayAlta)
+    {
         <PageTitle>Crear expediente</PageTitle>
         <h1>Registre un expediente con su carátula</h1>
         <input placeholder="Carátula" @bind="_caratula" />
         <button @onclick="DarDeAltaExpediente">Aceptar</button>
     }
-    else{
-        <h1>No posee permisos para dar un alta de expediente, comuníquese con el administrador para solicitar el permiso.</h1>
+    else
+    {
+        <h1>No posee permisos para dar un alta de expediente, comuníquese con el administrador para solicitar el permiso.
+        </h1>
     }
 </tbody>
 
@@ -79,19 +86,24 @@
     string? _caratula;
     int userId;
 
-    protected override async Task OnInitializedAsync() {
+    protected override async Task OnInitializedAsync()
+    {
         _lista = CasoDeUsoListarExpedientes.EjecutarConsultarTodos();
         var result = await sessionStorage.GetAsync<int>("userId");
         userId = result.Success ? result.Value : 0;
         Usuario? user = CasoDeUsoUsuarioConsultaPorId.EjecutarConsulta(userId);
-        if((user != null)&&(user.permisos != null)){
-            if(ServicioAutorizacion.PoseeElPermiso(user.permisos,Permiso.ExpedienteModificacion)){
+        if ((user != null) && (user.permisos != null))
+        {
+            if (ServicioAutorizacion.PoseeElPermiso(user.permisos, Permiso.ExpedienteModificacion))
+            {
                 shouldDisplayModificar = true;
             }
-            if(ServicioAutorizacion.PoseeElPermiso(user.permisos,Permiso.ExpedienteBaja)){
+            if (ServicioAutorizacion.PoseeElPermiso(user.permisos, Permiso.ExpedienteBaja))
+            {
                 shouldDisplayEliminar = true;
             }
-            if(ServicioAutorizacion.PoseeElPermiso(user.permisos,Permiso.ExpedienteAlta)){
+            if (ServicioAutorizacion.PoseeElPermiso(user.permisos, Permiso.ExpedienteAlta))
+            {
                 shouldDisplayAlta = true;
             }
         }
@@ -124,8 +136,8 @@
 
     private void EliminarExpediente(Expediente e)
     {
-        CasoDeUsoExpedienteBaja.EjecutarExpedienteBaja(e.Id);
         Usuario? user = CasoDeUsoUsuarioConsultaPorId.EjecutarConsulta(userId);
+        CasoDeUsoExpedienteBaja.EjecutarExpedienteBaja(e.Id, user);
         _lista = CasoDeUsoListarExpedientes.EjecutarConsultarTodos(e.Id, user);
         Navegador.NavigateTo($"listadoexpedientes");
     }

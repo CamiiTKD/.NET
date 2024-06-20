@@ -22,7 +22,7 @@ public class RepositorioExpediente : IExpedienteRepositorio
         var expedienteEncontrado = contexto.Expedientes.Find(id);
         if (expedienteEncontrado != null)
         {
-            Expediente expe = new Expediente(expedienteEncontrado);
+            Expediente? expe = new Expediente(expedienteEncontrado);
             return expe;
         }
         else
@@ -58,16 +58,16 @@ public class RepositorioExpediente : IExpedienteRepositorio
         }
     }
 
-    public void ModificarExpediente(Expediente expediente)
-    { //Revisar, muchos errores en Ejecutar y raro de modificar sin UI. No estoy seguro de como hcaer.
+    public void ModificarExpediente(Expediente expediente, int id)
+    {
         var expedienteExistente = contexto.Expedientes.Find(expediente.Id);
         if (expedienteExistente != null)
         {
             expedienteExistente.Caratula = expediente.Caratula;
-            expedienteExistente.UltimaModificacion = expediente.UltimaModificacion;
-            expedienteExistente.IdUsuario = expediente.IdUsuario;
+            expedienteExistente.UltimaModificacion = DateTime.Now;
+            expedienteExistente.IdUsuario = id;
             expedienteExistente.Estado = expediente.Estado;
-            contexto.SaveChanges(); //REVISAR AL FINAL.
+            contexto.SaveChanges();
         }
         else
         {
