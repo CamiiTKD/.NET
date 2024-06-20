@@ -10,14 +10,28 @@
 @inject CasoDeUsoTramiteAlta CasoDeUsoExpedienteAlta
 @inject CasoDeUsoTramiteConsultaTodos CasoDeUsoTramiteConsultaTodos
 @inject CasoDeUsoUsuarioConsultaPorId CasoDeUsoUsuarioConsultaPorId
+@inject CasoDeUsoTramiteConsultaPorEtiqueta CasoDeUsoTramiteConsultaPorEtiqueta
 
-<DialogoConfirmacion @ref="dialogo" />
+<DialogoOpcionesTramite @ref="dialogoOpciones" OnConfirmado="HandleConfirmacion" />
 
 <PageTitle>Tramites</PageTitle>
 <tbody>
     @if (_lista.Count() > 0)
     {
         <h1>Tramites</h1>
+        @if (displayingAll)
+        {
+            <button class="btn btn-secondary" @onclick="() => ConfirmarOrdenamiento()">
+                Ordenar por etiqueta
+            </button>
+        }
+        else
+        {
+            <button class="btn btn-secondary" @onclick="() => CargarTodos()">
+                Ver Todos
+            </button>
+        }
+
         <table class="table">
             <thead>
                 <tr>
@@ -69,6 +83,7 @@
 @code {
     private bool shouldDisplayModificar = false;
     private bool shouldDisplayEliminar = false;
+    private bool displayingAll = true;
     List<Tramite> _lista = new List<Tramite>();
     int userId;
 
@@ -93,6 +108,30 @@
                 StateHasChanged();
             }
         }
+    }
+
+    DialogoOpcionesTramite dialogoOpciones = null;
+    EtiquetaTramite etiquetaSeleccionada;
+    private async Task HandleConfirmacion(EtiquetaTramite opcion)
+    {
+        etiquetaSeleccionada = opcion;
+    }
+    private void ConfirmarOrdenamiento()
+    {
+        dialogoOpciones.OnConfirmado = EventCallback.Factory.Create<EtiquetaTramite>(this, () => Filtrar(etiquetaSeleccionada));
+        dialogoOpciones.Mensaje = $"Filtrar por...";
+        dialogoOpciones.Mostrar();
+    }
+
+    private void Filtrar(EtiquetaTramite etq)
+    {
+        displayingAll = false;
+        _lista = CasoDeUsoTramiteConsultaPorEtiqueta.EjecutarConsultaPorEtiqueta(etq);
+    }
+    private void CargarTodos()
+    {
+        displayingAll = true;
+        _lista = CasoDeUsoTramiteConsultaTodos.EjecutarConsultarTodos();
     }
 
     private void RedirigirModificarTramite(Tramite t)

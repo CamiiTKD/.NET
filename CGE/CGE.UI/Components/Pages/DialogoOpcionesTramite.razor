@@ -1,0 +1,56 @@
+﻿@rendermode InteractiveServer
+@using System.Linq
+
+@code {
+    [Parameter] public string Mensaje { get; set; }
+    [Parameter]
+    public List<EtiquetaTramite> Opciones { get; set; } =
+    Enum.GetValues(typeof(EtiquetaTramite)).Cast<EtiquetaTramite>().ToList();
+    [Parameter] public EventCallback<EtiquetaTramite> OnConfirmado { get; set; }
+    private bool mostrarDialogo;
+
+    public void Mostrar()
+    {
+        mostrarDialogo = true;
+        StateHasChanged();
+    }
+
+    private void Confirmar(EtiquetaTramite opcion)
+    {
+        mostrarDialogo = false;
+        OnConfirmado.InvokeAsync(opcion);
+    }
+
+    private void Cerrar()
+    {
+        mostrarDialogo = false;
+        StateHasChanged();
+    }
+}
+
+@if (mostrarDialogo)
+{
+    <div class="modal show d-block" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirmación</h5>
+                    <button type="button" class="close" @onclick="Cerrar" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>@Mensaje</p>
+                    <ul>
+                        @foreach (var opcion in Opciones)
+                        {
+                            <li>
+                                <button @onclick="() => Confirmar(opcion)">@opcion.ToString().Replace('_', ' ')</button>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+}
