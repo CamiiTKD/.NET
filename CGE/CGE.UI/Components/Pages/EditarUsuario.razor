@@ -8,18 +8,48 @@
 
 <input placeholder="Nombre" @bind="_user.nombre" class="form-control">
 <input placeholder="Apellido" @bind="_user.apellido" class="form-control">
+<input placeholder="Contraseña" type="Password" @bind="_user.contraseña" class="form-control">
+
+<h3>Seleccione los estados:</h3>
+<div>
+    @foreach (var permiso in permisos)
+    {
+        <div>
+            <input type="checkbox" @onchange="() => TogglePermiso(permiso)" />
+            <label>@permiso</label>
+        </div>
+    }
+</div>
 <button class="btn btn-primary" @onclick="Aceptar">Aceptar</button>
 
 @code {
-    Usuario _user = new Usuario();
+    private Usuario _user = new Usuario();
+    private Permiso[] permisos = Enum.GetValues<Permiso>();
     [Parameter] public int? Id { get; set; }
     protected override void OnParametersSet()
     {
         if (Id != null)
         {
             _user = CasoDeUsoUsuarioConsultaPorId.EjecutarConsulta(Id.Value);
+            if (_user.permisos == null)
+            {
+                _user.permisos = new List<Permiso>();
+            }
         }
     }
+
+    private void TogglePermiso(Permiso permiso)
+    {
+        if (_user.permisos.Contains(permiso))
+        {
+            _user.permisos.Remove(permiso);
+        }
+        else
+        {
+            _user.permisos.Add(permiso);
+        }
+    }
+
     void Aceptar()
     {
         CasoDeUsoUsuarioModificacion.EjecutarModificarUsuario(_user);

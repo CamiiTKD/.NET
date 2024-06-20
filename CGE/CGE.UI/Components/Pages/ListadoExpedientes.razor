@@ -25,10 +25,12 @@
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>CARÁTULA</th>
-                    <th>CREACIÓN</th>
-                    <th>ESTADO</th>
-                    <th>ACCIÓN</th>
+                    <th>Carátula</th>
+                    <th>Estado</th>
+                    <th>Creación</th>
+                    <th>Última Modificación</th>
+                    <th>Modificado por</th>
+                    <th>Acción</th>
                 </tr>
             </thead>
             <tbody>
@@ -37,12 +39,11 @@
                     <tr>
                         <td>@e.Id</td>
                         <td>@e.Caratula</td>
-                        <td>@e.Creacion</td>
                         <td>@e.Estado</td>
+                        <td>@e.Creacion</td>
+                        <td>@e.ultimaModificacion</td>
+                        <td>@e.IdUsuario</td>
                         <td>
-                            <button class="btn btn-primary" @onclick="() => RedirigirListadoTramites(e)">
-                                Ver Trámites
-                            </button>
                             @if (shouldDisplayModificar)
                             {
                                 <button class="btn btn-secondary" @onclick="() => RedirigirModificarExpediente(e)">
@@ -120,12 +121,6 @@
         Usuario? user = CasoDeUsoUsuarioConsultaPorId.EjecutarConsulta(userId);
         CasoDeUsoExpedienteAlta.EjecutarExpedienteAlta(expediente, user);
     }
-
-    private void RedirigirListadoTramites(Expediente e)
-    {
-        Navegador.NavigateTo($"expediente/{e.Id}/listadotramitesdeexpediente");
-    }
-
     private void RedirigirModificarExpediente(Expediente e)
     {
         Navegador.NavigateTo($"{e.Id}/modificarexpediente");
@@ -137,7 +132,6 @@
         dialogo.Mensaje = $"¿Desea eliminar el expediente del usuario {e.Id} junto a todos sus tramites?";
         dialogo.Mostrar();
     }
-
     private void EliminarExpediente(Expediente e)
     {
         Usuario? user = CasoDeUsoUsuarioConsultaPorId.EjecutarConsulta(userId);
