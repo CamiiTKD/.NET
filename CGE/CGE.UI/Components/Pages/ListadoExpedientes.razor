@@ -67,6 +67,9 @@
         <input placeholder="Carátula" @bind="_caratula" />
         <button @onclick="DarDeAltaExpediente">Aceptar</button>
     }
+    else{
+        <h1>No posee permisos para dar un alta de expediente, comuníquese con el administrador para solicitar el permiso.</h1>
+    }
 </tbody>
 
 @code {
@@ -122,10 +125,8 @@
 
     private void EliminarExpediente(Expediente e)
     {
-        @*CasoDeUsoExpedienteBaja.EjecutarExpedienteBaja(e.Id);*@
-        @*Tengo que pasar usuario "u" que sea el admin
-            (el actual, único que puede entrar a esta pagina).
-            Pero no se como están hechos los permisos ni como se pasa.*@
-        _lista = CasoDeUsoListarExpedientes.EjecutarConsultarTodos();
+        CasoDeUsoExpedienteBaja.EjecutarExpedienteBaja(e.Id);
+        Usuario? user = CasoDeUsoUsuarioConsultaPorId.EjecutarConsulta(userId);
+        _lista = CasoDeUsoListarExpedientes.EjecutarConsultarTodos(e.Id, user);
     }
 }
