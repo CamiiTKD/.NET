@@ -40,9 +40,9 @@ builder.Services.AddSingleton<EspecificacionCambioEstado>();
 builder.Services.AddSingleton<ServicioActualizacionEstado>();
 builder.Services.AddSingleton<IServicioAutorizacion, ServicioAutorizacion>();
 // REPOSITORIO
-builder.Services.AddSingleton<IExpedienteRepositorio, Repositorio>(ExpedienteRepo => new Repositorio(contexto));
-builder.Services.AddSingleton<ITramiteRepositorio, Repositorio>(TramiteRepo => new Repositorio(contexto));
-builder.Services.AddSingleton<IUsuarioRepositorio, Repositorio>(UsuarioRepo => new Repositorio(contexto));
+builder.Services.AddScoped<IExpedienteRepositorio, RepositorioExpediente>(ExpedienteRepo => new RepositorioExpediente(contexto));
+builder.Services.AddScoped<ITramiteRepositorio, RepositorioTramite>(TramiteRepo => new RepositorioTramite(contexto));
+builder.Services.AddScoped<IUsuarioRepositorio, RepositorioUsuario>(UsuarioRepo => new RepositorioUsuario(contexto));
 
 var app = builder.Build();
 
