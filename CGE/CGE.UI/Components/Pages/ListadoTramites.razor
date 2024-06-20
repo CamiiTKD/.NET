@@ -1,8 +1,89 @@
-﻿@page "/usuario/{IdUsuario:int?}/listadoexpedientes/{IdExpediente:int?}/listadotramites"
+﻿@page "/listadotramites"
 @rendermode InteractiveServer
 @inject NavigationManager Navegador;
-@inject CasoDeUsoTramiteBaja CasoDeUsoTramiteBaja
-@code{
-    [Parameter] public int? IdUsuario { get; set; }
-    [Parameter] public int? IdExpediente { get; set; }
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+@using System.Linq;
+@inject ProtectedSessionStorage sessionStorage
+@inject ServicioAutorizacion ServicioAutorizacion
+
+@inject CasoDeUsoTramiteBaja CasoDeUsoExpedienteBaja
+@inject CasoDeUsoTramiteAlta CasoDeUsoExpedienteAlta
+@inject CasoDeUsoTramiteConsultaTodos CasoDeUsoTramiteConsultaTodos
+@inject CasoDeUsoUsuarioConsultaPorId CasoDeUsoUsuarioConsultaPorId
+
+<PageTitle>Tramites</PageTitle>
+<tbody>
+    @if (_lista.Count() > 0)
+    {
+        <h1>Expedientes</h1>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>CARÁTULA</th>
+                    <th>CREACIÓN</th>
+                    <th>ESTADO</th>
+                    <th>ACCIÓN</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var e in _lista)
+                {
+                    <tr>
+                        <td>@e.Id</td>
+                        <td>@e.Caratula</td>
+                        <td>@e.Creacion</td>
+                        <td>@e.Estado</td>
+                        <td>
+                            <button class="btn btn-primary" @onclick="() => RedirigirListadoTramites(e)">
+                                Ver Trámites
+                            </button>
+                            @if (shouldDisplayModificar)
+                            {
+                                <button class="btn btn-secondary" @onclick="() => RedirigirModificarExpediente(e)">
+                                    Modificar
+                                </button>
+                            }
+                            @if (shouldDisplayEliminar)
+                            {
+                                <button class="btn btn-danger" @onclick="() => ConfirmarEliminacionExpediente(e)">
+                                    Eliminar
+                                </button>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <h3>No se han cargado tramites por el momento</h3>
+    }
+</tbody>
+
+@code {
+    private bool shouldDisplayModificar = false;
+    private bool shouldDisplayEliminar = false;
+    List<Tramite> _lista = new List<Tramite>();
+    int userId;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _lista = CasoDeUsoTramiteConsultaTodos.EjecutarConsultarTodos();
+        var result = await sessionStorage.GetAsync<int>("userId");
+        userId = result.Success ? result.Value : 0;
+        Usuario? user = CasoDeUsoUsuarioConsultaPorId.EjecutarConsulta(userId);
+        if ((user != null) && (user.permisos != null))
+        {
+            if (ServicioAutorizacion.PoseeElPermiso(user.permisos, Permiso.ExpedienteModificacion))
+            {
+                shouldDisplayModificar = true;
+            }
+            if (ServicioAutorizacion.PoseeElPermiso(user.permisos, Permiso.ExpedienteBaja))
+            {
+                shouldDisplayEliminar = true;
+            }
+        }
+    }
 }

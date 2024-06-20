@@ -4,7 +4,7 @@ using Aplicacion;
 using System.Security.Cryptography;
 using System.Text;
 
-public class RepositorioTramite:  ITramiteRepositorio
+public class RepositorioTramite : ITramiteRepositorio
 {
 
     public CGEContext contexto;
@@ -13,6 +13,12 @@ public class RepositorioTramite:  ITramiteRepositorio
     public RepositorioTramite(CGEContext contexto)
     {
         this.contexto = contexto;
+    }
+
+    public List<Tramite>? ConsultarTodos()
+    {
+        var lista = contexto.Tramites.ToList();
+        return lista;
     }
     public Tramite? consultaPorTramiteId(int idTramite)
     {
