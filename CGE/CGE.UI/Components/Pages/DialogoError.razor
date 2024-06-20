@@ -1,0 +1,22 @@
+@if (visible)
+{
+   <div class="dialogo-contenedor">
+       <div class="dialogo-contenido">
+           <h3>@Mensaje</h3>
+            <button type="submit" class="btn btn-success" @onclick="Cerrar">Aceptar</button>
+       </div>
+   </div>
+}
+
+@code{
+    private bool visible = false;
+    private string Mensaje = "";
+
+    public void Mostrar(string Mensaje) {
+        this.Mensaje = Mensaje;
+        visible=true;
+        StateHasChanged();
+    }
+
+    void Cerrar() => visible=false;
+}

@@ -1,4 +1,8 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
+﻿@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+@inject ProtectedSessionStorage sessionStorage
+@inject IJSRuntime JSRuntime
+
+<div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="">SeminarioApp</a>
     </div>
@@ -25,12 +29,27 @@
                 <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Weather
             </NavLink>
         </div>
-
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="listadousuarios">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Listado de usuarios
-            </NavLink>
-        </div>
+        @if (shouldDisplay) {
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="listadousuarios">
+                    <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Listado de usuarios
+                </NavLink>
+            </div>
+        }
     </nav>
 </div>
 
+@code{
+    private bool shouldDisplay = false;
+
+    int userId;
+    private bool esAdmin = true;
+    protected override async Task OnAfterRenderAsync(bool firstRender) {
+        if(firstRender){
+            var result  = await sessionStorage.GetAsync<bool>("esAdmin");
+            if (result.Success ? result.Value : false){
+                shouldDisplay = true;
+            }
+        }
+    }
+}
