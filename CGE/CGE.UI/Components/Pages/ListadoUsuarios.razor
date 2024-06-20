@@ -27,9 +27,6 @@
                     <button class="btn btn-primary" @onclick="()=>RedirigirModificarUsuario(u)">
                         Editar
                     </button>
-                    <button class="btn btn-secondary" @onclick="()=>RedirigirListadoExpedientes(u)">
-                        Ver expedientes
-                    </button>
                     <button class="btn btn-danger" @onclick="()=>ConfirmarEliminacion(u)">
                         Eliminar
                     </button>
@@ -61,10 +58,5 @@
     private void RedirigirModificarUsuario(Usuario u)
     {
         Navegador.NavigateTo($"usuario/{u.id}");
-    }
-
-    private void RedirigirListadoExpedientes(Usuario u)
-    {
-        Navegador.NavigateTo($"usuario/{u.id}/listadoexpedientes"); @*para cada user puede llamarse "misexpedientes"*@
     }
 }

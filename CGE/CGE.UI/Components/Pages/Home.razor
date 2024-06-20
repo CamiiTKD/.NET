@@ -1,27 +1,43 @@
 ﻿@page "/"
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+@inject ProtectedSessionStorage sessionStorage
+@inject IJSRuntime JSRuntime
 
 <PageTitle>Home</PageTitle>
 
-<h1>Bienvenido!</h1>
+@if (shouldDisplay) {
+    <h1>Bienvenido!</h1>
 
-Quieres gestionar expedientes y trámites de manera segura? 
+    <p>Quieres gestionar expedientes y trámites de manera segura? </p>
 
-<div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
-    <nav class="flex-bottom">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="/SignUp" Match="NavLinkMatch.All">
-                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> SignUp
-            </NavLink>
-        </div>
-    </nav>
-</div>
+    <div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
+        <nav class="flex-bottom">
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="/SignUp" Match="NavLinkMatch.All">
+                    <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> SignUp
+                </NavLink>
+            </div>
+        </nav>
+    </div>
+    <div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
+        <nav class="flex-bottom">
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="/Login" Match="NavLinkMatch.All">
+                    <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> SignIn
+                </NavLink>
+            </div>
+        </nav>
+    </div>
+}
 
-<div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
-    <nav class="flex-bottom">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="/Login" Match="NavLinkMatch.All">
-                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> SignIn
-            </NavLink>
-        </div>
-    </nav>
-</div>
+@code {
+    private bool shouldDisplay = true;
+    protected override async Task OnAfterRenderAsync(bool firstRender) {
+        if(firstRender){
+            var result = await sessionStorage.GetAsync<int>("userId");
+            if((result.Success ? result.Value : 0) != 0){
+                shouldDisplay = false;
+            }
+        }
+    }
+}

@@ -18,37 +18,50 @@
             </NavLink>
         </div>
 
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Counter
-            </NavLink>
-        </div>
-
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="weather">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Weather
-            </NavLink>
-        </div>
         @if (shouldDisplay) {
             <div class="nav-item px-3">
                 <NavLink class="nav-link" href="listadousuarios">
-                    <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Listado de usuarios
+                    <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Usuarios
                 </NavLink>
             </div>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="listadoexpedientes">
+                    <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Expedientes
+                </NavLink>
+            </div>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="listadotramites">
+                    <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Tramites
+                </NavLink>
+            </div>
+            @if (shouldDisplayUser) {
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="listadomisexpedientes">
+                        <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Mis Expedientes
+                    </NavLink>
+                </div>
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="listadomistramites">
+                        <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Mis Tramites
+                    </NavLink>
+                </div>
+            }
         }
     </nav>
 </div>
 
 @code{
     private bool shouldDisplay = false;
-
-    int userId;
-    private bool esAdmin = true;
+    private bool shouldDisplayUser = false;
     protected override async Task OnAfterRenderAsync(bool firstRender) {
         if(firstRender){
             var result  = await sessionStorage.GetAsync<bool>("esAdmin");
             if (result.Success ? result.Value : false){
                 shouldDisplay = true;
+            }
+            var result2 = await sessionStorage.GetAsync<int>("userId");
+            if((result2.Success ? result2.Value : 0) != 0){
+                shouldDisplayUser = true;
             }
         }
     }
