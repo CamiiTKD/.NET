@@ -1,17 +1,32 @@
 @page "/usuario/{IdUsuario:int?}/listadoexpedientes"
 @rendermode InteractiveServer
 @inject NavigationManager Navegador;
+
+@* 1. Inyecto lo que agregaron *@
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+@using System.Text.Json
+@using System.Linq;
+@inject ProtectedSessionStorage sessionStorage
+
 @inject CasoDeUsoExpedienteBaja CasoDeUsoExpedienteBaja;
 @inject CasoDeUsoExpedienteAlta CasoDeUsoExpedienteAlta;
 @inject CasoDeUsoExpedienteConsultaTodos CasoDeUsoListarExpedientes;
 @inject CasoDeUsoExpedienteConsultaPorId CasoDeUsoListarId;
 @inject ExpedienteCompartido ExpedienteSeleccionado;
 
+
 <DialogoConfirmacion @ref="dialogo" />
 
 <tbody>
     @if (_lista.Count() > 0)
     {
+        @if (userId.Value == 1)){
+            <PageTitle>Expedientes</PageTitle>
+        }
+    else
+        {
+            <PageTitle>Mi expediente</PageTitle>
+        }
         <table class="table">
             <thead>
                 <tr>
@@ -34,12 +49,18 @@
                             <button class="btn btn-primary" @onclick="() => RedirigirListadoTramites(e)">
                                 Ver Trámites
                             </button>
-                            <button class="btn btn-secondary" @onclick="() => RedirigirModificarExpediente(e)">
-                                Modificar
-                            </button>
-                            <button class="btn btn-danger" @onclick="() => ConfirmarEliminacionExpediente(e)">
-                                Eliminar
-                            </button>
+                            @if (_listaPermisos.Contains(Permiso.ExpedienteModificacion))
+                            {
+                                <button class="btn btn-secondary" @onclick="() => RedirigirModificarExpediente(e)">
+                                    Modificar
+                                </button>
+                            }
+                            @if (_listaPermisos.Contains(Permiso.ExpedienteBaja))
+                            {
+                                <button class="btn btn-danger" @onclick="() => ConfirmarEliminacionExpediente(e)">
+                                    Eliminar
+                                </button>
+                            }
                         </td>
                     </tr>
                 }
@@ -49,33 +70,34 @@
     else
     {
         <h3>No se encontraron expedientes asociados al usuario</h3>
-        <PageTitle>Crear expediente</PageTitle>
-
-        <input placeholder="Carátula" @bind="_caratula" />
-
-        <br>
-        @*<button @onclick="DarDeAltaExpediente(_caratula)">Aceptar</button> @*falta usuario*@
-
+        @if (_listaPermisos.Contains(Permiso.ExpedienteAlta))
+        {
+            <PageTitle>Crear expediente</PageTitle>
+            <h1>Registre un expediente con su carátula</h1>
+            <input placeholder="Carátula" @bind="_caratula" />
+            <button @onclick="DarDeAltaExpediente(_caratula)">Aceptar</button>
+            <br>
+        }
     }
 </tbody>
 
 @code {
     List<Expediente> _lista = new List<Expediente>();
+    List<Permiso> _listaPermisos = RecuperarPermisos();
     string _caratula;
     [Parameter] public int? IdUsuario { get; set; }
-    protected override void OnInitialized()
+    var userId = await sessionStorage.GetAsync<int>("userId");
+    protected override void OnInitialized(int userId) @*Esto es válido??*@
     {
-        @*necesito ID usuario, si es 1 consulto todos, si es distinta, consulta por ID
-if (u.id == 1)
-{
-_lista = CasoDeUsoListarExpedientes.EjecutarConsultarTodos();
-}
-else
-{
-Expediente exp = CasoDeUsoListarId.EjecutarConsultarPorId(u.id);
-_lista.Add(exp);
-}*@
-        _lista = CasoDeUsoListarExpedientes.EjecutarConsultarTodos();
+        if (userId.Value == 1)
+        {
+            _lista = CasoDeUsoListarExpedientes.EjecutarConsultarTodos();
+        }
+        else
+        {
+            Expediente exp = CasoDeUsoListarId.EjecutarConsultarPorId(userId.Value);
+            _lista.Add(exp);
+        }
     }
     private void DarDeAltaExpediente(string caratula, Usuario usuario)
     {
@@ -110,5 +132,20 @@ La direccion debe incluir el usuario?*@
 (el actual, único que puede entrar a esta pagina).
 Pero no se como están hechos los permisos ni como se pasa.*@
         _lista = CasoDeUsoListarExpedientes.EjecutarConsultarTodos();
+    }
+
+    async Task<List<Permiso>> RecuperarPermisos()
+    {
+        var permisosJson = await sessionStorage.GetAsync<string>("permisos");
+        if (permisosJson == null)
+        {
+            return new List<Permiso>();
+        }
+        var permisos = JsonSerializer.Deserialize<List<Permiso>>(permisosJson);
+        if (permisos == null)
+        {
+            return new List<Permiso>();
+        }
+        return permisos;
     }
 }
