@@ -1,6 +1,5 @@
-﻿@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
-@inject ProtectedSessionStorage sessionStorage
-@inject IJSRuntime JSRuntime
+﻿@inject IJSRuntime JSRuntime
+@inject ServicioSesion servicioSesion
 
 <div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
@@ -24,25 +23,15 @@
                     <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Usuarios
                 </NavLink>
             </div>
-            <div class="nav-item px-3">
-                <NavLink class="nav-link" href="listadoexpedientes">
-                    <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Expedientes
-                </NavLink>
-            </div>
-            <div class="nav-item px-3">
-                <NavLink class="nav-link" href="listadotramites">
-                    <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Tramites
-                </NavLink>
-            </div>
-            @if (shouldDisplayUser) {
+            @if (shouldDisplayUser){
                 <div class="nav-item px-3">
-                    <NavLink class="nav-link" href="listadomisexpedientes">
-                        <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Mis Expedientes
+                    <NavLink class="nav-link" href="listadoexpedientes">
+                        <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Expedientes
                     </NavLink>
                 </div>
                 <div class="nav-item px-3">
-                    <NavLink class="nav-link" href="listadomistramites">
-                        <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Mis Tramites
+                    <NavLink class="nav-link" href="listadotramites">
+                        <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Tramites
                     </NavLink>
                 </div>
             }
@@ -55,13 +44,12 @@
     private bool shouldDisplayUser = false;
     protected override async Task OnAfterRenderAsync(bool firstRender) {
         if(firstRender){
-            var result  = await sessionStorage.GetAsync<bool>("esAdmin");
-            if (result.Success ? result.Value : false){
-                shouldDisplay = true;
-            }
-            var result2 = await sessionStorage.GetAsync<int>("userId");
-            if((result2.Success ? result2.Value : 0) != 0){
+            if ((servicioSesion.Conectado) || (servicioSesion.UsuarioLogged != null))
+            {
                 shouldDisplayUser = true;
+                if(servicioSesion.UsuarioLogged.id == 1){
+                    shouldDisplay = true;
+                }
             }
         }
     }
