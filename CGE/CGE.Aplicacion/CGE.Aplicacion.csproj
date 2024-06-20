@@ -10,7 +10,6 @@
     <Folder Include="Entidades\" />
     <Folder Include="Enumerativos\" />
     <Folder Include="Excepciones\" />
-    <Folder Include="Interfaces\" />
     <Folder Include="Validadores\" />
   </ItemGroup>
 
