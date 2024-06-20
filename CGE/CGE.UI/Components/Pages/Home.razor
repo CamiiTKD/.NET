@@ -29,14 +29,19 @@
         </nav>
     </div>
 }
+else{
+    <h1>mate me debe una coca</h1>
+}
 
 @code {
     private bool shouldDisplay = true;
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+
+    protected override void OnInitialized()
     {
-        if (firstRender)
-        {
-            if ((!servicioSesion.Conectado) || (servicioSesion.UsuarioLogged == null)) shouldDisplay = false;
+        if ((servicioSesion.Conectado) || (servicioSesion.UsuarioLogged != null)) 
+        {   
+            shouldDisplay = false;
+            StateHasChanged();
         }
     }
 }
