@@ -5,6 +5,7 @@
 @using CGE.Aplicacion
 @using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
 @inject ProtectedSessionStorage sessionStorage
+@using System.Text.Json
 
 <DialogoError @ref=dialogo/>
 
@@ -32,9 +33,12 @@
 
     private string textoAdvertencia = " ";
 
-    async Task Save(bool esAdmin, int userId) {
+    async Task Save(bool esAdmin, int userId, List<Permiso> permisos) {
         await sessionStorage.SetAsync("userId", userId);
         await sessionStorage.SetAsync("esAdmin", esAdmin);
+        @* Serializo los permisos en un JSON para poder pasarlos entre páginas. Al revisarlos deben ser deserializados. *@
+        var permisosJson = JsonSerializer.Serialize(permisos);
+        await sessionStorage.SetAsync("permisos", permisosJson);
     }
 
     async Task Aceptar(){
@@ -50,10 +54,10 @@
         if (usuario != null){
             if(usuario.id == 1)
             {
-                await Save(true, usuario.id);
+                await Save(true, usuario.id, usuario.permisos);
             }
             else{
-                await Save(false, usuario.id);
+                await Save(false, usuario.id, usuario.permisos);
             }
             navegador.NavigateTo("/");
         }
