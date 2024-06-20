@@ -15,38 +15,40 @@
 <tbody>
     @if (_lista.Count() > 0)
     {
-        <h1>Expedientes</h1>
+        <h1>Tramites</h1>
         <table class="table">
             <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>CARÁTULA</th>
-                    <th>CREACIÓN</th>
-                    <th>ESTADO</th>
-                    <th>ACCIÓN</th>
+                    <th>ID Usuario</th>
+                    <th>ID Expediente</th>
+                    <th>Tipo</th>
+                    <th>Contenido</th>
+                    <th>Creación</th>
+                    <th>Última Modificación</th>
+                    <th>Modificado por</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach (var e in _lista)
+                @foreach (var t in _lista)
                 {
                     <tr>
-                        <td>@e.Id</td>
-                        <td>@e.Caratula</td>
-                        <td>@e.Creacion</td>
-                        <td>@e.Estado</td>
+                        <td>@t.Id</td>
+                        <td>@t.ExpedienteId</td>
+                        <td>@t.Tipo</td>
+                        <td>@t.Contenido</td>
+                        <td>@t.Creacion</td>
+                        <td>@t.UltimaModificacion</td>
+                        <td>@t.IdUsuario</td>
                         <td>
-                            <button class="btn btn-primary" @onclick="() => RedirigirListadoTramites(e)">
-                                Ver Trámites
-                            </button>
                             @if (shouldDisplayModificar)
                             {
-                                <button class="btn btn-secondary" @onclick="() => RedirigirModificarExpediente(e)">
+                                <button class="btn btn-secondary" @onclick="() => RedirigirModificarTramite(t)">
                                     Modificar
                                 </button>
                             }
                             @if (shouldDisplayEliminar)
                             {
-                                <button class="btn btn-danger" @onclick="() => ConfirmarEliminacionExpediente(e)">
+                                <button class="btn btn-danger" @onclick="() => ConfirmarEliminacionTramite(t)">
                                     Eliminar
                                 </button>
                             }
@@ -76,14 +78,21 @@
         Usuario? user = CasoDeUsoUsuarioConsultaPorId.EjecutarConsulta(userId);
         if ((user != null) && (user.permisos != null))
         {
-            if (ServicioAutorizacion.PoseeElPermiso(user.permisos, Permiso.ExpedienteModificacion))
+            if (ServicioAutorizacion.PoseeElPermiso(user.permisos, Permiso.TramiteModificacion))
             {
                 shouldDisplayModificar = true;
             }
-            if (ServicioAutorizacion.PoseeElPermiso(user.permisos, Permiso.ExpedienteBaja))
+            if (ServicioAutorizacion.PoseeElPermiso(user.permisos, Permiso.TramiteBaja))
             {
                 shouldDisplayEliminar = true;
             }
         }
+    }
+
+    private void ConfirmarEliminacionTramite(Tramite t){
+        Usuario? user = CasoDeUsoUsuarioConsultaPorId.EjecutarConsulta(userId);
+        CasoDeUsoExpedienteBaja.EjecutarExpedienteBaja(t.Id, user);
+        _lista = CasoDeUsoListarExpedientes.EjecutarConsultarTodos(e.Id, user);
+        Navegador.NavigateTo($"listadotramites");
     }
 }

@@ -1,10 +1,10 @@
 namespace CGE.Aplicacion;
 public class ServicioActualizacionEstado
 {
-    public void ActualizarEstado(Expediente expediente)         
+    public void ActualizarEstado(Expediente expediente)
     {
         if (expediente.Tramites != null && expediente.Tramites.Count() > 0)
-        { 
+        {
             int cantidadTramites = expediente.Tramites.Count();
             Tramite tramiteTemporal = expediente.Tramites[cantidadTramites - 1];
 
