@@ -18,8 +18,6 @@ builder.Services.AddTransient<CasoDeUsoExpedienteBaja>();
 builder.Services.AddTransient<CasoDeUsoExpedienteConsultaPorId>();
 builder.Services.AddTransient<CasoDeUsoExpedienteConsultaTodos>();
 builder.Services.AddTransient<CasoDeUsoExpedienteModificacion>();
-
-builder.Services.AddSingleton<ExpedienteCompartido>();
 // TRAMITE
 builder.Services.AddTransient<CasoDeUsoTramiteAlta>();
 builder.Services.AddTransient<CasoDeUsoTramiteBaja>();
@@ -44,6 +42,9 @@ builder.Services.AddSingleton<IServicioAutorizacion, ServicioAutorizacion>();
 builder.Services.AddScoped<IExpedienteRepositorio, RepositorioExpediente>(ExpedienteRepo => new RepositorioExpediente(contexto));
 builder.Services.AddScoped<ITramiteRepositorio, RepositorioTramite>(TramiteRepo => new RepositorioTramite(contexto));
 builder.Services.AddScoped<IUsuarioRepositorio, RepositorioUsuario>(UsuarioRepo => new RepositorioUsuario(contexto));
+
+//STORAGE
+builder.Services.AddSingleton<ServicioSesion>();
 
 var app = builder.Build();
 

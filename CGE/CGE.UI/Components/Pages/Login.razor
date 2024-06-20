@@ -1,13 +1,12 @@
 @page "/Login"
-@inject NavigationManager navegador;
-@inject CasoDeUsoSignIn CasoDeUsoSignIn
 @rendermode InteractiveServer
 @using CGE.Aplicacion
-@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
-@inject ProtectedSessionStorage sessionStorage
 @using System.Text.Json
+@inject NavigationManager navegador;
+@inject CasoDeUsoSignIn CasoDeUsoSignIn
+@inject ServicioSesion servicioSesion
 
-<DialogoError @ref=dialogo/>
+<DialogoError @ref=dialogo />
 
 <h1>Inicio de Sesión</h1>
 
@@ -33,14 +32,11 @@
 
     private string textoAdvertencia = " ";
 
-    async Task Save(bool esAdmin, int userId) {
-        await sessionStorage.SetAsync("userId", userId);
-        await sessionStorage.SetAsync("esAdmin", esAdmin);
-    }
+    async Task Aceptar()
+    {
 
-    async Task Aceptar(){
-
-        if ((string.IsNullOrEmpty(mail) || string.IsNullOrEmpty(password))) {
+        if ((string.IsNullOrEmpty(mail) || string.IsNullOrEmpty(password)))
+        {
             textoAdvertencia = "Complete todos los campos";
             StateHasChanged();
             return;
@@ -48,14 +44,10 @@
 
         Usuario? usuario = CasoDeUsoSignIn.Ejecutar(mail, password);
 
-        if (usuario != null){
-            if(usuario.id == 1)
-            {
-                await Save(true, usuario.id);
-            }
-            else{
-                await Save(false, usuario.id);
-            }
+        if (usuario != null)
+        {
+            servicioSesion.UsuarioLogged = usuario;
+            servicioSesion.Conectado = true;
             navegador.NavigateTo("/");
         }
     }
