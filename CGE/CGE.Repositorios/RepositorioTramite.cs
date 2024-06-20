@@ -34,9 +34,9 @@ public class RepositorioTramite : ITramiteRepositorio
         }
     }
 
-    public List<Tramite> ConsultaEtiqueta(EtiquetaTramite etiqueta)
+    public List<Tramite>? ConsultaEtiqueta(EtiquetaTramite etiqueta)
     {
-        List<Tramite> listaTramites = contexto.Tramites.
+        var listaTramites = contexto.Tramites.
                                 Where(t => t.Tipo == etiqueta)
                                 .ToList();
         return listaTramites;
