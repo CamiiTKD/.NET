@@ -33,12 +33,9 @@
 
     private string textoAdvertencia = " ";
 
-    async Task Save(bool esAdmin, int userId, List<Permiso> permisos) {
+    async Task Save(bool esAdmin, int userId) {
         await sessionStorage.SetAsync("userId", userId);
         await sessionStorage.SetAsync("esAdmin", esAdmin);
-        @* Serializo los permisos en un JSON para poder pasarlos entre páginas. Al revisarlos deben ser deserializados. *@
-        var permisosJson = JsonSerializer.Serialize(permisos);
-        await sessionStorage.SetAsync("permisos", permisosJson);
     }
 
     async Task Aceptar(){
@@ -54,10 +51,10 @@
         if (usuario != null){
             if(usuario.id == 1)
             {
-                await Save(true, usuario.id, usuario.permisos);
+                await Save(true, usuario.id);
             }
             else{
-                await Save(false, usuario.id, usuario.permisos);
+                await Save(false, usuario.id);
             }
             navegador.NavigateTo("/");
         }
