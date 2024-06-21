@@ -1,16 +1,14 @@
 ﻿@page "/listadotramites"
 @rendermode InteractiveServer
 @inject NavigationManager Navegador;
-@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
 @using System.Linq;
-@inject ProtectedSessionStorage sessionStorage
 @inject IServicioAutorizacion ServicioAutorizacion
-@inject IJSRuntime JSRuntime
 @inject CasoDeUsoTramiteBaja CasoDeUsoExpedienteBaja
 @inject CasoDeUsoTramiteAlta CasoDeUsoExpedienteAlta
 @inject CasoDeUsoTramiteConsultaTodos CasoDeUsoTramiteConsultaTodos
 @inject CasoDeUsoUsuarioConsultaPorId CasoDeUsoUsuarioConsultaPorId
 @inject CasoDeUsoTramiteConsultaPorEtiqueta CasoDeUsoTramiteConsultaPorEtiqueta
+@inject ServicioSesion servicioSesion
 
 <DialogoOpcionesTramite @ref="dialogoOpciones" OnConfirmado="HandleConfirmacion" />
 
@@ -86,28 +84,21 @@
     private bool shouldDisplayEliminar = false;
     private bool displayingAll = true;
     List<Tramite> _lista = new List<Tramite>();
-    int userId;
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    protected override void OnInitialized()
     {
-        if (firstRender)
+        _lista = CasoDeUsoTramiteConsultaTodos.EjecutarConsultarTodos();
+        if ((servicioSesion.UsuarioLogged != null) && (servicioSesion.UsuarioLogged.permisos != null))
         {
-            _lista = CasoDeUsoTramiteConsultaTodos.EjecutarConsultarTodos();
-            var result = await sessionStorage.GetAsync<int>("userId");
-            userId = result.Success ? result.Value : 0;
-            Usuario? user = CasoDeUsoUsuarioConsultaPorId.EjecutarConsulta(userId);
-            if ((user != null) && (user.permisos != null))
+            if (ServicioAutorizacion.PoseeElPermiso(servicioSesion.UsuarioLogged.permisos, Permiso.TramiteModificacion))
             {
-                if (ServicioAutorizacion.PoseeElPermiso(user.permisos, Permiso.TramiteModificacion))
-                {
-                    shouldDisplayModificar = true;
-                }
-                if (ServicioAutorizacion.PoseeElPermiso(user.permisos, Permiso.TramiteBaja))
-                {
-                    shouldDisplayEliminar = true;
-                }
-                StateHasChanged();
+                shouldDisplayModificar = true;
             }
+            if (ServicioAutorizacion.PoseeElPermiso(servicioSesion.UsuarioLogged.permisos, Permiso.TramiteBaja))
+            {
+                shouldDisplayEliminar = true;
+            }
+            StateHasChanged();
         }
     }
 
@@ -139,6 +130,7 @@
     {
         Navegador.NavigateTo($"{t.Id}/modificartramite");
     }
+
     DialogoConfirmacion dialogo = null!;
     private void ConfirmarEliminacionTramite(Tramite t)
     {
@@ -148,8 +140,7 @@
     }
     private void Eliminar(Tramite t)
     {
-        Usuario? user = CasoDeUsoUsuarioConsultaPorId.EjecutarConsulta(userId);
-        CasoDeUsoExpedienteBaja.EjecutarTramiteBaja(t.Id, user);
+        CasoDeUsoExpedienteBaja.EjecutarTramiteBaja(t.Id, servicioSesion.UsuarioLogged);
         _lista = CasoDeUsoTramiteConsultaTodos.EjecutarConsultarTodos();
         Navegador.NavigateTo($"listadotramites");
     }
