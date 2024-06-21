@@ -69,6 +69,9 @@
         <h1>Registre un expediente con su carátula</h1>
         <input placeholder="Carátula" @bind="_caratula" />
         <button @onclick="DarDeAltaExpediente">Aceptar</button>
+        <div class="advertencia">
+            @textoAdvertencia
+        </div>
     }
     else
     {
@@ -81,9 +84,10 @@
     private bool shouldDisplayModificar = false;
     private bool shouldDisplayEliminar = false;
     private bool shouldDisplayAlta = false;
-
+    DialogoConfirmacion dialogo = null!;
+    private string textoAdvertencia = " ";
     List<Expediente> _lista = new List<Expediente>();
-    string? _caratula;
+    string? _caratula = null;
 
     protected override void OnInitialized()
     {
@@ -108,16 +112,21 @@
 
     void DarDeAltaExpediente()
     {
-        Expediente expediente = new Expediente(_caratula, servicioSesion.UsuarioLogged.id);
-        CasoDeUsoExpedienteAlta.EjecutarExpedienteAlta(expediente, servicioSesion.UsuarioLogged);
-        _lista = CasoDeUsoListarExpedientes.EjecutarConsultarTodos();
+        if(!string.IsNullOrWhiteSpace(_caratula)){
+            Expediente expediente = new Expediente(_caratula, servicioSesion.UsuarioLogged.id);
+            CasoDeUsoExpedienteAlta.EjecutarExpedienteAlta(expediente, servicioSesion.UsuarioLogged);
+            _lista = CasoDeUsoListarExpedientes.EjecutarConsultarTodos();
+        }
+        else{
+            textoAdvertencia = "La carátula no puede estar vacía";
+            StateHasChanged();
+        }
     }
     private void RedirigirModificarExpediente(Expediente e)
     {
         Navegador.NavigateTo($"{e.Id}/modificarexpediente");
     }
 
-    DialogoConfirmacion dialogo = null!;
     private void ConfirmarEliminacionExpediente(Expediente e)
     {
         dialogo.OnConfirmado = EventCallback.Factory.Create(this, () => EliminarExpediente(e));

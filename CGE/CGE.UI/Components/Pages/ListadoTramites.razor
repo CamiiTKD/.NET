@@ -7,6 +7,7 @@
 @inject CasoDeUsoTramiteAlta CasoDeUsoTramiteAlta
 @inject CasoDeUsoTramiteConsultaTodos CasoDeUsoTramiteConsultaTodos
 @inject CasoDeUsoUsuarioConsultaPorId CasoDeUsoUsuarioConsultaPorId
+@inject CasoDeUsoExpedienteConsultaPorId CasoDeUsoExpedienteConsultaPorId
 @inject CasoDeUsoTramiteConsultaPorEtiqueta CasoDeUsoTramiteConsultaPorEtiqueta
 @inject ServicioSesion servicioSesion
 
@@ -87,6 +88,9 @@
             }
         </select>
         <button @onclick="ConfirmarAlta">Aceptar</button>
+        <div class="advertencia">
+            @textoAdvertencia
+        </div>
     }
     else
     {
@@ -100,6 +104,8 @@
     private bool shouldDisplayEliminar = false;
     private bool shouldDisplayAlta = false;
     private bool displayingAll = true;
+    private string textoAdvertencia = "";
+
     List<Tramite> _lista = new List<Tramite>();
 
     private string? _contenido;
@@ -130,9 +136,21 @@
 
     private void ConfirmarAlta()
     {   
-        Tramite tramite = new Tramite(_expedienteAsociado, _tipo, _contenido, servicioSesion.UsuarioLogged.id);
-        CasoDeUsoTramiteAlta.EjecutarTramiteAlta(tramite, servicioSesion.UsuarioLogged);
-        _lista = CasoDeUsoTramiteConsultaTodos.EjecutarConsultarTodos();
+        if(!string.IsNullOrWhiteSpace(_contenido)){
+            if(CasoDeUsoExpedienteConsultaPorId.EjecutarConsultarPorId(_expedienteAsociado) != null){
+                Tramite tramite = new Tramite(_expedienteAsociado, _tipo, _contenido, servicioSesion.UsuarioLogged.id);
+                CasoDeUsoTramiteAlta.EjecutarTramiteAlta(tramite, servicioSesion.UsuarioLogged);
+                _lista = CasoDeUsoTramiteConsultaTodos.EjecutarConsultarTodos();
+            }
+            else
+            {
+                textoAdvertencia = "No se encontró el expediente asociado";
+            }
+        }
+        else{
+            textoAdvertencia = "El contenido no puede estar vacío";
+            StateHasChanged();
+        }
     }
 
     private void Filtrar(EtiquetaTramite etq)

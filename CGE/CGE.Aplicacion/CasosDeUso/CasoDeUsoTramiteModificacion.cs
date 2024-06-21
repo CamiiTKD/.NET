@@ -10,7 +10,11 @@ public class CasoDeUsoTramiteModificacion(ITramiteRepositorio repoTra, TramiteVa
         {
             tramite.ModificarUltimaFecha(usuario.id);
             repoTra.ModificarTramite(tramite, usuario.id);
+            EstadoExpediente estado = expe.Estado;
             expe = servicio.ActualizarEstado(expe);
+            if (expe.Estado != estado){
+                expe.ModificarUltimaFecha(usuario.id);
+            }
             repoExp.ModificarExpediente(expe, usuario.id);
         }
         else {

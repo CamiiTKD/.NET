@@ -15,7 +15,7 @@
 
 @if (shouldDisplayModificacion)
 {
-    <form>
+    <div>
         <div class="form-group">
             <input type="text" placeholder="Caratula" @bind="_caratula" class="form-control">
         </div>
@@ -34,7 +34,7 @@
         <div class="d-flex justify-content-between mb-3">
             <button @onclick="Aceptar">Subir cambios</button>
         </div>
-    </form>
+    </div>
 }
 else{
     <h3>No posee permisos para modificar trámites</h3>
@@ -45,25 +45,19 @@ else{
 
     bool shouldDisplayModificacion = false;
 
-    int IdUsuario;
-
     string _caratula = "";
 
     string textoAdvertencia = "";
 
     EstadoExpediente _estado;
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    protected override void OnInitialized()
     {
-        if (firstRender)
+        if ((servicioSesion.UsuarioLogged != null) && (servicioSesion.UsuarioLogged.permisos != null))
         {
-            Usuario? user = CasoDeUsoUsuarioConsultaPorId.EjecutarConsulta(IdUsuario);
-            if ((user != null) && (user.permisos != null))
+            if (ServicioAutorizacion.PoseeElPermiso(servicioSesion.UsuarioLogged.permisos, Permiso.ExpedienteModificacion))
             {
-                if (ServicioAutorizacion.PoseeElPermiso(user.permisos, Permiso.ExpedienteModificacion))
-                {
-                    shouldDisplayModificacion = true;
-                }
+                shouldDisplayModificacion = true;
             }
         }
         StateHasChanged();
@@ -81,7 +75,8 @@ else{
                 expe.Estado = _estado;
                 CasoDeUsoExpedienteModificacion.EjecutarModificacionExpediente(expe, servicioSesion.UsuarioLogged);
             }
-            Navegador.NavigateTo("listadoexpedientes");
+            Navegador.NavigateTo("listadoexpedientes", true);
         }
+        StateHasChanged();
     }
 }
