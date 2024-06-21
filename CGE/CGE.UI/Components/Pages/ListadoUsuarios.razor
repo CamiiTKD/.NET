@@ -17,6 +17,10 @@
     </thead>
 
     <tbody>
+        @if (_lista.Count() == 0)
+        {
+            <tr>No se han registrado usuarios hasta el momento</tr>
+        }
         @foreach (var u in _lista)
         {
             <tr>

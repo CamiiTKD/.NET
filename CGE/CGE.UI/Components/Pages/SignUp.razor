@@ -3,6 +3,7 @@
 @inject NavigationManager Navegador;
 @using CGE.Aplicacion
 @inject CasoDeUsoUsuarioAlta CasoDeUsoUsuarioAlta
+@inject CasoDeUsoUsuarioConsultaPorEmail CasoDeUsoUsuarioConsultaPorEmail
 
 <PageTitle>Registrarse</PageTitle>
 
@@ -11,12 +12,26 @@
 <input placeholder="Email" @bind="p.email" /><br>
 <input placeholder="Contraseña" type="Password" @bind="p.contraseña" /><br>
 <button @onclick="Registrarse">Aceptar</button>
+<div class="advertencia">
+    @textoAdvertencia
+</div>
 
 @code {
     Usuario p = new Usuario();
+    private string textoAdvertencia = "";
     void Registrarse()
     {
-        CasoDeUsoUsuarioAlta.EjecutarAltaUsuario(p);
-        Navegador.NavigateTo("/");
+        if((!string.IsNullOrWhiteSpace(p.nombre))&&(!string.IsNullOrWhiteSpace(p.apellido))&&(!string.IsNullOrWhiteSpace(p.email))&&(!string.IsNullOrWhiteSpace(p.contraseña))){
+            if(CasoDeUsoUsuarioConsultaPorEmail.EjecutarConsultaEmail(p.email) == false){
+                CasoDeUsoUsuarioAlta.EjecutarAltaUsuario(p);
+                Navegador.NavigateTo("/");
+            }
+            else{
+                textoAdvertencia = "Email ya existente";
+            }
+        }
+        else{
+            textoAdvertencia = "Debe completar todos los campos";
+        }
     }
 }

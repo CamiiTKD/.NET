@@ -6,5 +6,6 @@ public interface IUsuarioRepositorio
     public void ModificarUsuario(Usuario usuario);
     public Usuario? RetornarUsuario(string mail, string contraseña);
     public Usuario? ConsultaUsuario(int id);
+    public bool ConsultaUsuarioEmail(string mail);
     public List<Usuario> consultaUsuarios();
 }
