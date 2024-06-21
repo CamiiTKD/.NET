@@ -41,6 +41,7 @@
     protected override void OnInitialized()
     {
         _lista = CasoDeUsoListarUsuarios.EjecutarListado();
+        _lista.RemoveAt(0);
     }
     DialogoConfirmacion dialogo = null!;
     private void ConfirmarEliminacion(Usuario u)
@@ -53,6 +54,7 @@
     {
         CasoDeUsoUsuarioBaja.EjecutarUsuarioBaja(u.id);
         _lista = CasoDeUsoListarUsuarios.EjecutarListado();
+        _lista.RemoveAt(0);
     }
 
     private void RedirigirModificarUsuario(Usuario u)
