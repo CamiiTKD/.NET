@@ -3,6 +3,7 @@
 @inject NavigationManager Navegador;
 @inject CasoDeUsoListarUsuarios CasoDeUsoListarUsuarios
 @inject CasoDeUsoUsuarioBaja CasoDeUsoUsuarioBaja
+@inject ServicioSesion servicioSesion
 
 <DialogoConfirmacion @ref="dialogo" />
 
@@ -56,7 +57,7 @@
     }
     private void Eliminar(Usuario u)
     {
-        CasoDeUsoUsuarioBaja.EjecutarUsuarioBaja(u.id);
+        CasoDeUsoUsuarioBaja.EjecutarUsuarioBaja(u.id, servicioSesion.UsuarioLogged);
         _lista = CasoDeUsoListarUsuarios.EjecutarListado();
         _lista.RemoveAt(0);
     }

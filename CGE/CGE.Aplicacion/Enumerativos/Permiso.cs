@@ -9,4 +9,5 @@ public enum Permiso{
     PermisoModificacion,
     UsuarioBaja,
     UsuarioModificacion
+
 }

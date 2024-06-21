@@ -20,7 +20,7 @@
     }
     void Aceptar()
     {
-        CasoDeUsoUsuarioModificacion.EjecutarModificarUsuario(_user);
+        CasoDeUsoUsuarioModificacion.EjecutarModificarUsuario(_user, servicioSesion.UsuarioLogged);
         Navegador.NavigateTo("/");
     }
 }
