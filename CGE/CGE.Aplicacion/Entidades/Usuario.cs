@@ -11,7 +11,7 @@ public class Usuario {
     public string? email { get => _email; set => _email = value;}
     private string? _contraseña;
     public string? contraseña { get => _contraseña; set => _contraseña = value;}
-    public List<Permiso>? permisos { get; set;}
+    public List<Permiso>? permisos { get; set; } = new List<Permiso>();
 
     public Usuario(){
 

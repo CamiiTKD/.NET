@@ -111,6 +111,7 @@
     {
         Expediente expediente = new Expediente(_caratula, servicioSesion.UsuarioLogged.id);
         CasoDeUsoExpedienteAlta.EjecutarExpedienteAlta(expediente, servicioSesion.UsuarioLogged);
+        StateHasChanged();
     }
     private void RedirigirModificarExpediente(Expediente e)
     {

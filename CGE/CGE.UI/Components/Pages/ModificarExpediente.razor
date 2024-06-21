@@ -1,4 +1,4 @@
-﻿@page "/{int? IdExpediente}/ModificarExpediente"
+﻿@page "/{IdExpediente:int?}/modificarexpediente"
 @rendermode InteractiveServer
 @inject NavigationManager Navegador;
 @using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
@@ -7,22 +7,25 @@
 @inject IServicioAutorizacion ServicioAutorizacion
 @inject IJSRuntime JSRuntime
 @inject IServicioAutorizacion ServicioAutorizacion
+@inject ServicioSesion servicioSesion
 
 @inject CasoDeUsoUsuarioConsultaPorId CasoDeUsoUsuarioConsultaPorId
+@inject CasoDeUsoExpedienteConsultaPorId CasoDeUsoExpedienteConsultaPorId
 @inject CasoDeUsoExpedienteModificacion CasoDeUsoExpedienteModificacion
+
 <h3>ModificarExpediente</h3>
 
-@if (shouldDisplayModificacion)
+@if (true)
 {
     <form>
     <div class="form-group">
-        <input type="text" placeholder="Caratula" @bind="caratula" class="form-control">
+        <input type="text" placeholder="Caratula" @bind="_caratula" class="form-control">
     </div>
     <div class="form-group">
-        <select @bind="tipo">
+        <select @bind="_estado">
             @foreach(var tipo in Enum.GetValues(typeof(EstadoExpediente)))
             {
-                <option value="@tipo">@tipo.ToString()</option>
+                <option value="@tipo">@tipo.ToString().Replace("_"," ")</option>
             }
         </select>
     </div>
@@ -36,12 +39,12 @@
 }
 
 @code {
-    [Parameter] public int? IdExpediente {get; set;}
+    [Parameter] public int IdExpediente {get; set;}
     bool shouldDisplayModificacion = false;
     int IdUsuario;
-    string caratula = "";
+    string _caratula = "";
     string textoAdvertencia = "";
-    EstadoExpediente tipo;
+    EstadoExpediente _estado;
      protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
@@ -62,15 +65,18 @@
 
     private void Aceptar()
     {
-        if (string.IsNullOrEmpty(caratula)) 
-            textoAdvertencia = "complete el contenido";
+        if (string.IsNullOrEmpty(_caratula))
+            textoAdvertencia = "Ingrese el nombre de la nueva caratula";
         else
-        { 
-            //CasoDeUsoExpedienteModificacion.EjecutarModificacionExpedientee(IdExpediente,contenido,tipo,user);
-            //todavia se tiene que implementar
-            
-            //redireccionar a ListadoExpedientes
+        {   
+            Expediente? expe = CasoDeUsoExpedienteConsultaPorId.EjecutarConsultarPorId(IdExpediente);
+            if (servicioSesion.UsuarioLogged != null && expe != null)
+            {
+                expe.Caratula = _caratula;
+                expe.Estado = _estado;
+                CasoDeUsoExpedienteModificacion.EjecutarModificacionExpediente(expe, servicioSesion.UsuarioLogged);
+            }
+            Navegador.NavigateTo("listadoexpedientes");
         }
     }
-
 }
