@@ -52,70 +52,34 @@
     EstadoExpediente _estado;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
-
     {
-
         if (firstRender)
-
         {
-
-            var result = await sessionStorage.GetAsync<int>("userId");
-
-            IdUsuario = result.Success ? result.Value : 0;
-
             Usuario? user = CasoDeUsoUsuarioConsultaPorId.EjecutarConsulta(IdUsuario);
-
             if ((user != null) && (user.permisos != null))
-
             {
-
                 if (ServicioAutorizacion.PoseeElPermiso(user.permisos, Permiso.ExpedienteModificacion))
-
                 {
-
                     shouldDisplayModificacion = true;
-
                 }
-
             }
-
         }
-
         StateHasChanged();
-
     }
-
-
-
     private void Aceptar()
-
     {
-
         if (string.IsNullOrEmpty(_caratula))
-
             textoAdvertencia = "Ingrese el nombre de la nueva caratula";
-
         else
-
         {
-
             Expediente? expe = CasoDeUsoExpedienteConsultaPorId.EjecutarConsultarPorId(IdExpediente);
-
             if (servicioSesion.UsuarioLogged != null && expe != null)
-
             {
-
                 expe.Caratula = _caratula;
-
                 expe.Estado = _estado;
-
                 CasoDeUsoExpedienteModificacion.EjecutarModificacionExpediente(expe, servicioSesion.UsuarioLogged);
-
             }
-
             Navegador.NavigateTo("listadoexpedientes");
-
         }
-
     }
 }
