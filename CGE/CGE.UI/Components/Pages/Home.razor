@@ -6,10 +6,9 @@
 
 <PageTitle>Home</PageTitle>
 
+<h1>Bienvenido!</h1>
 @if (shouldDisplay)
 {
-    <h1>Bienvenido!</h1>
-
     <p>Quieres gestionar expedientes y trámites de manera segura? </p>
 
     <div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
@@ -32,7 +31,7 @@
     </div>
 }
 else{
-    <h1>mate me debe una coca</h1>
+    <h2>Sistema de Gestión de Expedientes y Trámites</h2>
     <button class="btn btn-primary" @onclick="()=>ConfirmarSignOut()">
         Salir
     </button>
