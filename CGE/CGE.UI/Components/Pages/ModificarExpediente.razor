@@ -1,0 +1,121 @@
+﻿@page "/{IdExpediente:int?}/modificarexpediente"
+@rendermode InteractiveServer
+@inject NavigationManager Navegador;
+@using System.Linq;
+@inject IServicioAutorizacion ServicioAutorizacion
+@inject IJSRuntime JSRuntime
+@inject IServicioAutorizacion ServicioAutorizacion
+@inject ServicioSesion servicioSesion
+
+@inject CasoDeUsoUsuarioConsultaPorId CasoDeUsoUsuarioConsultaPorId
+@inject CasoDeUsoExpedienteConsultaPorId CasoDeUsoExpedienteConsultaPorId
+@inject CasoDeUsoExpedienteModificacion CasoDeUsoExpedienteModificacion
+
+<h3>ModificarExpediente</h3>
+
+@if (true)
+
+{
+    <form>
+        <div class="form-group">
+            <input type="text" placeholder="Caratula" @bind="_caratula" class="form-control">
+        </div>
+        <div class="form-group">
+            <select @bind="_estado">
+                @foreach (var tipo in Enum.GetValues(typeof(EstadoExpediente)))
+
+                {
+                    <option value="@tipo">@tipo.ToString().Replace("_", " ")</option>
+                }
+            </select>
+        </div>
+        <div class="advertencia">
+            @textoAdvertencia
+        </div>
+        <div class="d-flex justify-content-between mb-3">
+            <button @onclick="Aceptar">Subir cambios</button>
+        </div>
+    </form>
+}
+
+@code {
+    [Parameter] public int IdExpediente { get; set; }
+
+    bool shouldDisplayModificacion = false;
+
+    int IdUsuario;
+
+    string _caratula = "";
+
+    string textoAdvertencia = "";
+
+    EstadoExpediente _estado;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+
+    {
+
+        if (firstRender)
+
+        {
+
+            var result = await sessionStorage.GetAsync<int>("userId");
+
+            IdUsuario = result.Success ? result.Value : 0;
+
+            Usuario? user = CasoDeUsoUsuarioConsultaPorId.EjecutarConsulta(IdUsuario);
+
+            if ((user != null) && (user.permisos != null))
+
+            {
+
+                if (ServicioAutorizacion.PoseeElPermiso(user.permisos, Permiso.ExpedienteModificacion))
+
+                {
+
+                    shouldDisplayModificacion = true;
+
+                }
+
+            }
+
+        }
+
+        StateHasChanged();
+
+    }
+
+
+
+    private void Aceptar()
+
+    {
+
+        if (string.IsNullOrEmpty(_caratula))
+
+            textoAdvertencia = "Ingrese el nombre de la nueva caratula";
+
+        else
+
+        {
+
+            Expediente? expe = CasoDeUsoExpedienteConsultaPorId.EjecutarConsultarPorId(IdExpediente);
+
+            if (servicioSesion.UsuarioLogged != null && expe != null)
+
+            {
+
+                expe.Caratula = _caratula;
+
+                expe.Estado = _estado;
+
+                CasoDeUsoExpedienteModificacion.EjecutarModificacionExpediente(expe, servicioSesion.UsuarioLogged);
+
+            }
+
+            Navegador.NavigateTo("listadoexpedientes");
+
+        }
+
+    }
+}
