@@ -22,7 +22,7 @@ public class RepositorioExpediente : IExpedienteRepositorio
         var expedienteEncontrado = contexto.Expedientes.Find(id);
         if (expedienteEncontrado != null)
         {
-            Expediente? expe = new Expediente(expedienteEncontrado);
+            Expediente? expe = expedienteEncontrado; //saque new y constructor con expediente parametro.
             return expe;
         }
         else

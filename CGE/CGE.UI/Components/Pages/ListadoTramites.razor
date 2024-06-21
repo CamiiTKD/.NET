@@ -3,14 +3,12 @@
 @inject NavigationManager Navegador;
 @using System.Linq;
 @inject IServicioAutorizacion ServicioAutorizacion
-@inject CasoDeUsoTramiteBaja CasoDeUsoExpedienteBaja
-@inject CasoDeUsoTramiteAlta CasoDeUsoExpedienteAlta
+@inject CasoDeUsoTramiteBaja CasoDeUsoTramiteBaja
+@inject CasoDeUsoTramiteAlta CasoDeUsoTramiteAlta
 @inject CasoDeUsoTramiteConsultaTodos CasoDeUsoTramiteConsultaTodos
 @inject CasoDeUsoUsuarioConsultaPorId CasoDeUsoUsuarioConsultaPorId
 @inject CasoDeUsoTramiteConsultaPorEtiqueta CasoDeUsoTramiteConsultaPorEtiqueta
 @inject ServicioSesion servicioSesion
-
-<DialogoOpcionesTramite @ref="dialogoOpciones" OnConfirmado="HandleConfirmacion" />
 
 <PageTitle>Tramites</PageTitle>
 <tbody>
@@ -19,11 +17,11 @@
         <h1>Tramites</h1>
         @if (displayingAll)
         {
-            <button class="btn btn-secondary" @onclick="() => ConfirmarOrdenamiento()">
+            <button class="btn btn-secondary">
                 Ordenar por etiqueta
             </button>
         }
-        else
+        else @*Mostrando filtrados*@
         {
             <button class="btn btn-secondary" @onclick="() => CargarTodos()">
                 Ver Todos
@@ -77,13 +75,36 @@
     {
         <h3>No se han cargado tramites por el momento</h3>
     }
+    @if (shouldDisplayAlta)
+    {
+        <h2>Registre un trámite</h2>
+        <input placeholder="Contenido" @bind="_contenido" />
+        <input placeholder="Expediente asociado" type="number" @bind=_expedienteAsociado>
+        <select @bind="_tipo">
+            @foreach (var tipo in Enum.GetValues(typeof(EtiquetaTramite)))
+            {
+                <option value="@tipo">@tipo.ToString().Replace("_", " ")</option>
+            }
+        </select>
+        <button @onclick="ConfirmarAlta">Aceptar</button>
+    }
+    else
+    {
+        <h1>No posee permisos para dar un alta de expediente, comuníquese con el administrador para solicitar el permiso.
+        </h1>
+    }
 </tbody>
 
 @code {
     private bool shouldDisplayModificar = false;
     private bool shouldDisplayEliminar = false;
+    private bool shouldDisplayAlta = false;
     private bool displayingAll = true;
     List<Tramite> _lista = new List<Tramite>();
+
+    private string? _contenido;
+    private int _expedienteAsociado;
+    private EtiquetaTramite _tipo;
 
     protected override void OnInitialized()
     {
@@ -98,21 +119,20 @@
             {
                 shouldDisplayEliminar = true;
             }
+            if (ServicioAutorizacion.PoseeElPermiso(servicioSesion.UsuarioLogged.permisos, Permiso.TramiteAlta))
+            {
+                shouldDisplayAlta = true;
+            }
             StateHasChanged();
         }
     }
 
-    DialogoOpcionesTramite dialogoOpciones = null;
-    EtiquetaTramite etiquetaSeleccionada;
-    private async Task HandleConfirmacion(EtiquetaTramite opcion)
+
+    private void ConfirmarAlta()
     {
-        etiquetaSeleccionada = opcion;
-    }
-    private void ConfirmarOrdenamiento()
-    {
-        dialogoOpciones.OnConfirmado = EventCallback.Factory.Create<EtiquetaTramite>(this, () => Filtrar(etiquetaSeleccionada));
-        dialogoOpciones.Mensaje = $"Filtrar por...";
-        dialogoOpciones.Mostrar();
+        Tramite tramite = new Tramite(_expedienteAsociado, _tipo, _contenido, servicioSesion.UsuarioLogged.id);
+        CasoDeUsoTramiteAlta.EjecutarTramiteAlta(tramite, servicioSesion.UsuarioLogged);
+        _lista = CasoDeUsoTramiteConsultaTodos.EjecutarConsultarTodos();
     }
 
     private void Filtrar(EtiquetaTramite etq)
@@ -140,8 +160,7 @@
     }
     private void Eliminar(Tramite t)
     {
-        CasoDeUsoExpedienteBaja.EjecutarTramiteBaja(t.Id, servicioSesion.UsuarioLogged);
+        CasoDeUsoTramiteBaja.EjecutarTramiteBaja(t.Id, servicioSesion.UsuarioLogged);
         _lista = CasoDeUsoTramiteConsultaTodos.EjecutarConsultarTodos();
-        Navegador.NavigateTo($"listadotramites");
     }
 }
