@@ -56,10 +56,12 @@
         dialogo.Mostrar();
     }
     private void Eliminar(Usuario u)
-    {
-        CasoDeUsoUsuarioBaja.EjecutarUsuarioBaja(u.id, servicioSesion.UsuarioLogged);
-        _lista = CasoDeUsoListarUsuarios.EjecutarListado();
-        _lista.RemoveAt(0);
+    {   
+        if(servicioSesion.UsuarioLogged != null){
+            CasoDeUsoUsuarioBaja.EjecutarUsuarioBaja(u.id, servicioSesion.UsuarioLogged);
+            _lista = CasoDeUsoListarUsuarios.EjecutarListado();
+            _lista.RemoveAt(0);
+        }
     }
 
     private void RedirigirModificarUsuario(Usuario u)

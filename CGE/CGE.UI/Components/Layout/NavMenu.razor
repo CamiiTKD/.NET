@@ -51,11 +51,13 @@
 
     protected override void OnInitialized()
     {
-        if ((servicioSesion.Conectado) || (servicioSesion.UsuarioLogged != null))
+        if ((servicioSesion.UsuarioLogged != null)||(servicioSesion.Conectado))
         {
             shouldDisplayUser = true;
-            if(servicioSesion.UsuarioLogged.id == 1){
-                shouldDisplay = true;
+            if(servicioSesion.UsuarioLogged != null){
+                if(servicioSesion.UsuarioLogged.id == 1){
+                    shouldDisplay = true;
+                }
             }
             StateHasChanged();
         }
