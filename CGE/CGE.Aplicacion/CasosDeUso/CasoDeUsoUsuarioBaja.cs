@@ -1,7 +1,8 @@
 namespace CGE.Aplicacion;
-public class CasoDeUsoUsuarioBaja(IUsuarioRepositorio repo, IServicioAutorizacion servicio)
+public class CasoDeUsoUsuarioBaja(IUsuarioRepositorio repo)
 {
-    public void EjecutarUsuarioBaja (int idUsuario){
+    public void EjecutarUsuarioBaja(int idUsuario)
+    {
         repo.darDeBajaUsuario(idUsuario);
     }
 }

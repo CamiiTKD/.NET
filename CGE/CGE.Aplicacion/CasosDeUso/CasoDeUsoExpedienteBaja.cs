@@ -1,5 +1,5 @@
 namespace CGE.Aplicacion;
-public class CasoDeUsoExpedienteBaja(IExpedienteRepositorio repoExp, ITramiteRepositorio repoTra, IServicioAutorizacion servicio)
+public class CasoDeUsoExpedienteBaja(IExpedienteRepositorio repoExp, IServicioAutorizacion servicio)
 {
     public void EjecutarExpedienteBaja(int idExpediente, Usuario usuario)
     {
