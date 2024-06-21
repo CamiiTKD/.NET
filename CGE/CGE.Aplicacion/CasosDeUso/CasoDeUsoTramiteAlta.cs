@@ -12,6 +12,7 @@ public class CasoDeUsoTramiteAlta(ITramiteRepositorio repoTra, IExpedienteReposi
                 {
                     repoTra.darDeAltaTramite(tramite);
                     expediente = servicio.ActualizarEstado(expediente);
+                    expediente.ModificarUltimaFecha(usuario.id);
                     repoExp.ModificarExpediente(expediente, usuario.id);
                 }
 

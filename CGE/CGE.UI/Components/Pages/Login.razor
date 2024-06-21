@@ -6,8 +6,6 @@
 
 @inject NavigationManager Navegador;
 
-<DialogoError @ref=dialogo />
-
 <h1>Inicio de Sesión</h1>
 
 <div class="form-group">
@@ -26,7 +24,6 @@
 @code {
     string mail = "";
     string password = "";
-    DialogoError dialogo = null!;
 
     private string textoAdvertencia = " ";
 
