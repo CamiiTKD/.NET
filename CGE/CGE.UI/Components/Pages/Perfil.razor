@@ -1,0 +1,26 @@
+@page "/{IdUsuario:int?}/Perfil"
+@rendermode InteractiveServer
+@inject NavigationManager Navegador;
+@inject ServicioSesion servicioSesion
+@inject CasoDeUsoUsuarioModificacion CasoDeUsoUsuarioModificacion
+
+@if(servicioSesion.Conectado){
+    <input placeholder="Nombre" @bind="_user.nombre" class="form-control">
+    <input placeholder="Apellido" @bind="_user.apellido" class="form-control">
+    <input placeholder="Contraseña" type="Password" @bind="_user.contraseña" class="form-control">
+    <button class="btn btn-primary" @onclick="Aceptar">Aceptar</button>
+}
+
+@code{
+    [Parameter] public int IdUsuario { get; set; }
+    Usuario _user = new Usuario();
+    protected override void OnInitialized()
+    {
+        _user = servicioSesion.UsuarioLogged;
+    }
+    void Aceptar()
+    {
+        CasoDeUsoUsuarioModificacion.EjecutarModificarUsuario(_user);
+        Navegador.NavigateTo("/");
+    }
+}
