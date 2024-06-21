@@ -1,30 +1,27 @@
 @page "/Login"
-@inject NavigationManager navegador;
-@inject CasoDeUsoSignIn CasoDeUsoSignIn
 @rendermode InteractiveServer
 @using CGE.Aplicacion
-@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
-@inject ProtectedSessionStorage sessionStorage
-@using System.Text.Json
+@inject CasoDeUsoSignIn CasoDeUsoSignIn
+@inject ServicioSesion servicioSesion
 
-<DialogoError @ref=dialogo/>
+@inject NavigationManager Navegador;
+
+<DialogoError @ref=dialogo />
 
 <h1>Inicio de Sesión</h1>
 
-<form>
-    <div class="form-group">
-        <input type="text" placeholder="Correo" @bind="mail" class="form-control">
-    </div>
-    <div class="form-group">
-        <input type="password" placeholder="Contraseña" @bind="password" class="form-control">
-    </div>
-    <div class="advertencia">
-        @textoAdvertencia
-    </div>
-    <div class="d-flex justify-content-between mb-3">
-        <button @onclick="Aceptar">Iniciar Sesión</button>
-    </div>
-</form>
+<div class="form-group">
+    <input type="text" placeholder="Correo" @bind="mail" class="form-control">
+</div>
+<div class="form-group">
+    <input type="password" placeholder="Contraseña" @bind="password" class="form-control">
+</div>
+<div class="advertencia">
+    @textoAdvertencia
+</div>
+<div class="d-flex justify-content-between mb-3">
+    <button @onclick="Aceptar">Iniciar Sesión</button>
+</div>
 
 @code {
     string mail = "";
@@ -33,14 +30,11 @@
 
     private string textoAdvertencia = " ";
 
-    async Task Save(bool esAdmin, int userId) {
-        await sessionStorage.SetAsync("userId", userId);
-        await sessionStorage.SetAsync("esAdmin", esAdmin);
-    }
+    void Aceptar()
+    {
 
-    async Task Aceptar(){
-
-        if ((string.IsNullOrEmpty(mail) || string.IsNullOrEmpty(password))) {
+        if ((string.IsNullOrEmpty(mail) || string.IsNullOrEmpty(password)))
+        {
             textoAdvertencia = "Complete todos los campos";
             StateHasChanged();
             return;
@@ -48,15 +42,16 @@
 
         Usuario? usuario = CasoDeUsoSignIn.Ejecutar(mail, password);
 
-        if (usuario != null){
-            if(usuario.id == 1)
-            {
-                await Save(true, usuario.id);
-            }
-            else{
-                await Save(false, usuario.id);
-            }
-            navegador.NavigateTo("/");
+        if (usuario != null)
+        {
+            servicioSesion.UsuarioLogged = usuario;
+            servicioSesion.Conectado = true;
+            Navegador.NavigateTo("/");
+        }
+        else
+        {
+            textoAdvertencia = "Correo o contraseña incorrectos";
+            StateHasChanged();
         }
     }
 }

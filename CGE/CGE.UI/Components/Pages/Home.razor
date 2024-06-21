@@ -1,11 +1,11 @@
 ﻿@page "/"
-@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
-@inject ProtectedSessionStorage sessionStorage
 @inject IJSRuntime JSRuntime
+@inject ServicioSesion servicioSesion
 
 <PageTitle>Home</PageTitle>
 
-@if (shouldDisplay) {
+@if (shouldDisplay)
+{
     <h1>Bienvenido!</h1>
 
     <p>Quieres gestionar expedientes y trámites de manera segura? </p>
@@ -29,15 +29,19 @@
         </nav>
     </div>
 }
+else{
+    <h1>mate me debe una coca</h1>
+}
 
 @code {
     private bool shouldDisplay = true;
-    protected override async Task OnAfterRenderAsync(bool firstRender) {
-        if(firstRender){
-            var result = await sessionStorage.GetAsync<int>("userId");
-            if((result.Success ? result.Value : 0) != 0){
-                shouldDisplay = false;
-            }
+
+    protected override void OnInitialized()
+    {
+        if ((servicioSesion.Conectado) || (servicioSesion.UsuarioLogged != null)) 
+        {   
+            shouldDisplay = false;
+            StateHasChanged();
         }
     }
 }
