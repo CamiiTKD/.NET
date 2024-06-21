@@ -22,7 +22,8 @@ public class RepositorioUsuario : IUsuarioRepositorio
 
     public void darDeAltaUsuario(Usuario u)
     {
-        if (!BuscarAdmin()){
+        if (!BuscarAdmin())
+        {
             u.permisos.Add(Permiso.ExpedienteAlta);
             u.permisos.Add(Permiso.ExpedienteBaja);
             u.permisos.Add(Permiso.ExpedienteModificacion);
@@ -75,7 +76,7 @@ public class RepositorioUsuario : IUsuarioRepositorio
         if (usuario != null)
         {
             string contraseña2 = FuncionHash(contraseña);
-            if (usuario.contraseña==contraseña2)
+            if (usuario.contraseña == contraseña2)
             {
                 return usuario;
             }
@@ -84,7 +85,8 @@ public class RepositorioUsuario : IUsuarioRepositorio
     }
 
 
-    private bool BuscarAdmin() {
+    private bool BuscarAdmin()
+    {
         return contexto.Usuarios.Any(u => u.id == 1);
     }
 

@@ -66,7 +66,6 @@
     }
     @if (shouldDisplayAlta)
     {
-        <PageTitle>Crear expediente</PageTitle>
         <h1>Registre un expediente con su carátula</h1>
         <input placeholder="Carátula" @bind="_caratula" />
         <button @onclick="DarDeAltaExpediente">Aceptar</button>
@@ -111,6 +110,7 @@
     {
         Expediente expediente = new Expediente(_caratula, servicioSesion.UsuarioLogged.id);
         CasoDeUsoExpedienteAlta.EjecutarExpedienteAlta(expediente, servicioSesion.UsuarioLogged);
+        _lista = CasoDeUsoListarExpedientes.EjecutarConsultarTodos();
     }
     private void RedirigirModificarExpediente(Expediente e)
     {
@@ -129,6 +129,5 @@
     {
         CasoDeUsoExpedienteBaja.EjecutarExpedienteBaja(e.Id, servicioSesion.UsuarioLogged);
         _lista = CasoDeUsoListarExpedientes.EjecutarConsultarTodos();
-        Navegador.NavigateTo($"listadoexpedientes");
     }
 }

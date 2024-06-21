@@ -12,7 +12,6 @@ public class CasoDeUsoTramiteAlta(ITramiteRepositorio repoTra, IExpedienteReposi
                 Expediente? expediente = repoExp.consultaPorId(tramite.ExpedienteId);
                 if (expediente != null)
                 {
-                    expediente.AgregarEnLista(tramite);
                     repoTra.darDeAltaTramite(tramite);
                     servicio.ActualizarEstado(expediente);
                     repoExp.ModificarExpediente(expediente, usuario.id);

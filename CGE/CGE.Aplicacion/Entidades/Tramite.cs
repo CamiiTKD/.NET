@@ -13,7 +13,8 @@ public class Tramite
     {
 
     }
-    public Tramite(int expedienteId, EtiquetaTramite tipo, string? contenido, int idUsuario) //Al crear el tramite por primera vez ??
+
+    public Tramite(int expedienteId, EtiquetaTramite tipo, string? contenido, int idUsuario)
     {
         ExpedienteId = expedienteId;
         Tipo = tipo;
