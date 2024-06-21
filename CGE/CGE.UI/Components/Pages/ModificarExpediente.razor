@@ -13,8 +13,7 @@
 
 <h3>ModificarExpediente</h3>
 
-@if (true)
-
+@if (shouldDisplayModificacion)
 {
     <form>
         <div class="form-group">
@@ -36,6 +35,9 @@
             <button @onclick="Aceptar">Subir cambios</button>
         </div>
     </form>
+}
+else{
+    <h3>No posee permisos para modificar trámites</h3>
 }
 
 @code {
