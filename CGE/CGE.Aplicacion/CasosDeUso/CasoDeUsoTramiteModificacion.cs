@@ -10,14 +10,11 @@ public class CasoDeUsoTramiteModificacion(ITramiteRepositorio repoTra, TramiteVa
         {
             tramite.ModificarUltimaFecha(usuario.id);
             repoTra.ModificarTramite(tramite, usuario.id);
-
-            //actualizo el expediente del tramite
-            servicio.ActualizarEstado(expe);
-            //modificar ultima fecha? creeria que no
-
+            expe = servicio.ActualizarEstado(expe);
+            repoExp.ModificarExpediente(expe, usuario.id);
         }
-        else 
+        else {
             new ValidacionException($"El Tramite{tramite.Id} no fue validado"); 
-
+        }
     }
 }
