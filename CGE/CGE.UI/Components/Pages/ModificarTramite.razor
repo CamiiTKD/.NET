@@ -1,0 +1,84 @@
+@page "/{IdTramite:int?}/ModificarTramite"
+@rendermode InteractiveServer
+@inject NavigationManager Navegador;
+@using System.Linq;
+@inject IServicioAutorizacion ServicioAutorizacion
+@inject IJSRuntime JSRuntime
+@inject IServicioAutorizacion ServicioAutorizacion
+@inject ServicioSesion servicioSesion
+
+@inject CasoDeUsoUsuarioConsultaPorId CasoDeUsoUsuarioConsultaPorId
+@inject CasoDeUsoTramiteModificacion CasoDeUsoTramiteModificacion
+@inject CasoDeUsoTramiteConsultaPorId CasoDeUsoTramiteConsultaPorId 
+@inject CasoDeUsoExpedienteConsultaPorId CasoDeUsoExpedienteConsultaPorId
+
+<h3 >ModificarTramite</h3>
+
+@if (shouldDisplayModificacion)
+{
+    <form>
+    <div class="form-group">
+        <input type="text" placeholder="Nuevo Contenido" @bind="_contenido" class="form-control">
+    </div>
+    <div class="form-group">
+        <select @bind="_tipo">
+            @foreach(var tipo in Enum.GetValues(typeof(EtiquetaTramite)))
+            {
+                <option value="@tipo">@tipo.ToString().Replace("_"," ")</option>
+            }
+        </select>
+    </div>
+    <div class="advertencia">
+        @textoAdvertencia
+    </div>
+    <div class="d-flex justify-content-between mb-3">
+        <button @onclick="Aceptar">Subir cambios</button>
+    </div>
+    </form>
+}
+
+@code {
+    [Parameter] public int IdTramite {get; set;}
+    bool shouldDisplayModificacion = false;
+    int IdUsuario;
+    string _contenido = "";
+    string textoAdvertencia = "";
+    EtiquetaTramite _tipo;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            Usuario? user = CasoDeUsoUsuarioConsultaPorId.EjecutarConsulta(IdUsuario);
+            if ((user != null) && (user.permisos != null))
+            {
+                if (ServicioAutorizacion.PoseeElPermiso(user.permisos, Permiso.ExpedienteModificacion))
+                {
+                    shouldDisplayModificacion = true;
+                }
+            }
+        }
+        StateHasChanged();
+    }
+
+    private void Aceptar()
+    {
+        if (string.IsNullOrEmpty(_contenido)) 
+            textoAdvertencia = "complete el contenido";
+        else
+        { 
+            Tramite? tramite = CasoDeUsoTramiteConsultaPorId.EjecutarConsultarPorId(IdTramite);
+            if (servicioSesion.UsuarioLogged != null && tramite != null)
+            {
+                tramite.Contenido = _contenido;
+                tramite.Tipo = _tipo;
+                
+                Expediente? expe = CasoDeUsoExpedienteConsultaPorId.EjecutarConsultarPorId(tramite.ExpedienteId);
+                if (expe != null)
+                    CasoDeUsoTramiteModificacion.EjecutarModificacionTramite(tramite,expe,servicioSesion.UsuarioLogged);
+            }
+            Navegador.NavigateTo("listadotramites"); //arreglar dsp no funca
+        }
+    }
+
+}

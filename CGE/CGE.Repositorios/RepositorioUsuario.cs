@@ -56,8 +56,8 @@ public class RepositorioUsuario : IUsuarioRepositorio
         var usuarioModificar = contexto.Usuarios.Where(
                                 u => u.id == usuario.id).SingleOrDefault();
         usuarioModificar = usuario;
+        usuarioModificar.contraseña = FuncionHash(usuarioModificar.contraseña);
         contexto.SaveChanges();
-        //NOSE SI ANDA XD
     }
 
 

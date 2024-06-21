@@ -8,7 +8,6 @@ using System.Text;
 public class RepositorioExpediente : IExpedienteRepositorio
 {
     public CGEContext contexto;
-    public static int idExpediente;
 
     public RepositorioExpediente(CGEContext contexto)
     {
