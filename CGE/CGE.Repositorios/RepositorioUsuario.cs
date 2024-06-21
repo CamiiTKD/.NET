@@ -55,10 +55,12 @@ public class RepositorioUsuario : IUsuarioRepositorio
     {
         var usuarioModificar = contexto.Usuarios.Where(
                                 u => u.id == usuario.id).SingleOrDefault();
-        if(usuarioModificar.contraseña != usuario.contraseña){          
-            usuarioModificar.contraseña = FuncionHash(usuarioModificar.contraseña);
+        string contraseñaNueva = FuncionHash(usuario.contraseña);
+        usuarioModificar.nombre = usuario.nombre;
+        usuarioModificar.apellido = usuario.apellido;             
+        if(usuarioModificar.contraseña != contraseñaNueva){          
+            usuarioModificar.contraseña = contraseñaNueva;
         }
-        usuarioModificar = usuario;
         contexto.SaveChanges();
     }
 
