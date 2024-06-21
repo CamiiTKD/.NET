@@ -3,10 +3,8 @@ public class CasoDeUsoTramiteAlta(ITramiteRepositorio repoTra, IExpedienteReposi
 {
     public void EjecutarTramiteAlta(Tramite tramite, Usuario usuario)
     {
-        if (!servicioAutorizacion.PoseeElPermiso(usuario.permisos, Permiso.TramiteAlta))
+        if (servicioAutorizacion.PoseeElPermiso(usuario.permisos, Permiso.TramiteAlta))
         {
-            new AutorizacionException($"El usuario con el id: {usuario.id} no posee permisos para dar de alta trámites.");
-
             if (validador.Validar(tramite))
             {
                 Expediente? expediente = repoExp.consultaPorId(tramite.ExpedienteId);
@@ -18,6 +16,9 @@ public class CasoDeUsoTramiteAlta(ITramiteRepositorio repoTra, IExpedienteReposi
                 }
 
             }
+        }
+        else{
+            new AutorizacionException($"El usuario con el id: {usuario.id} no posee permisos para dar de alta trámites.");
         }
     }
 }

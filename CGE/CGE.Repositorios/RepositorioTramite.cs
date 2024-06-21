@@ -8,7 +8,6 @@ public class RepositorioTramite : ITramiteRepositorio
 {
 
     public CGEContext contexto;
-    public static int idTramite;
 
     public RepositorioTramite(CGEContext contexto)
     {
@@ -62,19 +61,20 @@ public class RepositorioTramite : ITramiteRepositorio
         }
     }
 
-
-    public void ModificarTramite(Tramite tramite)
-    // NO SE PUEDE hacer tramiteExistente=tramite porque 
-    //solo modificaríamos la referencia y no el tramite en la base de datos!!
+    public void ModificarTramite(Tramite tramite, int id)
     {
-        var tramiteExistente = contexto.Tramites.Find(tramite.Id); //Si no lo encuentra devuelve null.
+        var tramiteExistente = contexto.Tramites.Find(tramite.Id);
         if (tramiteExistente != null)
-        { //Si lo encuentra modifico lo pertinente, lo demás no necesita modificarse.
+        {
             tramiteExistente.Tipo = tramite.Tipo;
             tramiteExistente.Contenido = tramite.Contenido;
-            tramiteExistente.UltimaModificacion = tramite.UltimaModificacion;
-            tramiteExistente.IdUsuario = tramite.IdUsuario;
-            contexto.SaveChanges(); //Reflejo los cambios.
+            tramiteExistente.UltimaModificacion = DateTime.Now;
+            tramiteExistente.IdUsuario = id;
+            contexto.SaveChanges();
+        }
+        else
+        {
+            new RepositorioException($"No existe el tramite con ID: {tramite.Id} que desea modificar");
         }
     }
 

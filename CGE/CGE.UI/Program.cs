@@ -22,6 +22,7 @@ builder.Services.AddTransient<CasoDeUsoExpedienteModificacion>();
 builder.Services.AddTransient<CasoDeUsoTramiteAlta>();
 builder.Services.AddTransient<CasoDeUsoTramiteBaja>();
 builder.Services.AddTransient<CasoDeUsoTramiteConsultaPorEtiqueta>();
+builder.Services.AddTransient<CasoDeUsoTramiteConsultaPorId>();
 builder.Services.AddTransient<CasoDeUsoTramiteModificacion>();
 builder.Services.AddTransient<CasoDeUsoTramiteConsultaTodos>();
 // USUARIO
@@ -35,7 +36,6 @@ builder.Services.AddTransient<CasoDeUsoSignIn>();
 builder.Services.AddSingleton<ExpedienteValidador>();
 builder.Services.AddSingleton<TramiteValidador>();
 // SERVICIO
-builder.Services.AddSingleton<EspecificacionCambioEstado>();
 builder.Services.AddSingleton<ServicioActualizacionEstado>();
 builder.Services.AddSingleton<IServicioAutorizacion, ServicioAutorizacion>();
 // REPOSITORIO
