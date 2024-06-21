@@ -1,6 +1,8 @@
 ﻿@page "/"
-@inject IJSRuntime JSRuntime
+@rendermode InteractiveServer
 @inject ServicioSesion servicioSesion
+
+<DialogoConfirmacion @ref="dialogo" />
 
 <PageTitle>Home</PageTitle>
 
@@ -31,6 +33,9 @@
 }
 else{
     <h1>mate me debe una coca</h1>
+    <button class="btn btn-primary" @onclick="()=>ConfirmarSignOut()">
+        Salir
+    </button>
 }
 
 @code {
@@ -43,5 +48,19 @@ else{
             shouldDisplay = false;
             StateHasChanged();
         }
+    }
+
+    DialogoConfirmacion dialogo = null!;
+    private void ConfirmarSignOut()
+    {
+        dialogo.OnConfirmado = EventCallback.Factory.Create(this, () => SignOut());
+        dialogo.Mensaje = $"¿Seguro que deseas cerrar sesión?";
+        dialogo.Mostrar();
+    }
+    private void SignOut()
+    {
+        servicioSesion.logOut();
+        shouldDisplay = true;
+        StateHasChanged();
     }
 }

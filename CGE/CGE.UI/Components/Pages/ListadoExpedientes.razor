@@ -1,17 +1,15 @@
 @page "/listadoexpedientes"
 @rendermode InteractiveServer
 @inject NavigationManager Navegador;
-@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
 @using System.Linq;
-@inject ProtectedSessionStorage sessionStorage
 @inject IServicioAutorizacion ServicioAutorizacion
-@inject IJSRuntime JSRuntime
 
 @inject CasoDeUsoExpedienteBaja CasoDeUsoExpedienteBaja
 @inject CasoDeUsoExpedienteAlta CasoDeUsoExpedienteAlta
 @inject CasoDeUsoExpedienteConsultaTodos CasoDeUsoListarExpedientes
 @inject CasoDeUsoExpedienteConsultaPorId CasoDeUsoListarId
 @inject CasoDeUsoUsuarioConsultaPorId CasoDeUsoUsuarioConsultaPorId
+@inject ServicioSesion servicioSesion
 
 <DialogoConfirmacion @ref="dialogo" />
 
@@ -84,47 +82,41 @@
     private bool shouldDisplayModificar = false;
     private bool shouldDisplayEliminar = false;
     private bool shouldDisplayAlta = false;
+
     List<Expediente> _lista = new List<Expediente>();
     string? _caratula;
-    int userId;
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    protected override void OnInitialized()
     {
-        if (firstRender)
+        _lista = CasoDeUsoListarExpedientes.EjecutarConsultarTodos();
+        if ((servicioSesion.UsuarioLogged != null) && (servicioSesion.UsuarioLogged.permisos != null))
         {
-            _lista = CasoDeUsoListarExpedientes.EjecutarConsultarTodos();
-            var result = await sessionStorage.GetAsync<int>("userId");
-            userId = result.Success ? result.Value : 0;
-            Usuario? user = CasoDeUsoUsuarioConsultaPorId.EjecutarConsulta(userId);
-            if ((user != null) && (user.permisos != null))
+            if (ServicioAutorizacion.PoseeElPermiso(servicioSesion.UsuarioLogged.permisos, Permiso.ExpedienteModificacion))
             {
-                if (ServicioAutorizacion.PoseeElPermiso(user.permisos, Permiso.ExpedienteModificacion))
-                {
-                    shouldDisplayModificar = true;
-                }
-                if (ServicioAutorizacion.PoseeElPermiso(user.permisos, Permiso.ExpedienteBaja))
-                {
-                    shouldDisplayEliminar = true;
-                }
-                if (ServicioAutorizacion.PoseeElPermiso(user.permisos, Permiso.ExpedienteAlta))
-                {
-                    shouldDisplayAlta = true;
-                }
-                StateHasChanged();
+                shouldDisplayModificar = true;
             }
+            if (ServicioAutorizacion.PoseeElPermiso(servicioSesion.UsuarioLogged.permisos, Permiso.ExpedienteBaja))
+            {
+                shouldDisplayEliminar = true;
+            }
+            if (ServicioAutorizacion.PoseeElPermiso(servicioSesion.UsuarioLogged.permisos, Permiso.ExpedienteAlta))
+            {
+                shouldDisplayAlta = true;
+            }
+            StateHasChanged();
         }
     }
 
     void DarDeAltaExpediente()
     {
-        Expediente expediente = new Expediente(_caratula, userId);
-        Usuario? user = CasoDeUsoUsuarioConsultaPorId.EjecutarConsulta(userId);
-        CasoDeUsoExpedienteAlta.EjecutarExpedienteAlta(expediente, user);
+        Expediente expediente = new Expediente(_caratula, servicioSesion.UsuarioLogged.id);
+        CasoDeUsoExpedienteAlta.EjecutarExpedienteAlta(expediente, servicioSesion.UsuarioLogged);
     }
     private void RedirigirModificarExpediente(Expediente e)
     {
         Navegador.NavigateTo($"{e.Id}/modificarexpediente");
     }
+
     DialogoConfirmacion dialogo = null!;
     private void ConfirmarEliminacionExpediente(Expediente e)
     {
@@ -132,10 +124,10 @@
         dialogo.Mensaje = $"¿Desea eliminar el expediente del usuario {e.Id} junto a todos sus tramites?";
         dialogo.Mostrar();
     }
+
     private void EliminarExpediente(Expediente e)
     {
-        Usuario? user = CasoDeUsoUsuarioConsultaPorId.EjecutarConsulta(userId);
-        CasoDeUsoExpedienteBaja.EjecutarExpedienteBaja(e.Id, user);
+        CasoDeUsoExpedienteBaja.EjecutarExpedienteBaja(e.Id, servicioSesion.UsuarioLogged);
         _lista = CasoDeUsoListarExpedientes.EjecutarConsultarTodos();
         Navegador.NavigateTo($"listadoexpedientes");
     }
