@@ -31,6 +31,7 @@ builder.Services.AddTransient<CasoDeUsoUsuarioBaja>();
 builder.Services.AddTransient<CasoDeUsoListarUsuarios>();
 builder.Services.AddTransient<CasoDeUsoUsuarioModificacion>();
 builder.Services.AddTransient<CasoDeUsoUsuarioConsultaPorId>();
+builder.Services.AddTransient<CasoDeUsoUsuarioConsultaPorEmail>();
 builder.Services.AddTransient<CasoDeUsoSignIn>();
 // VALIDADOR
 builder.Services.AddSingleton<ExpedienteValidador>();

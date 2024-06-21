@@ -72,6 +72,13 @@ public class RepositorioUsuario : IUsuarioRepositorio
         return usuario;
     }
 
+    public bool ConsultaUsuarioEmail(string mail)
+    {
+        var usuario = contexto.Usuarios.Where(
+                        u => u.email == mail).SingleOrDefault();
+        return usuario != null;
+    }
+
 
     public Usuario? RetornarUsuario(string mail, string contraseña)
     {
