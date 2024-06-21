@@ -130,10 +130,8 @@
 
     private void ConfirmarAlta()
     {   
-        Console.WriteLine("entra a dar de alta");
         Tramite tramite = new Tramite(_expedienteAsociado, _tipo, _contenido, servicioSesion.UsuarioLogged.id);
         CasoDeUsoTramiteAlta.EjecutarTramiteAlta(tramite, servicioSesion.UsuarioLogged);
-        Console.WriteLine("da de alta");
         _lista = CasoDeUsoTramiteConsultaTodos.EjecutarConsultarTodos();
     }
 

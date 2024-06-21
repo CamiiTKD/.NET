@@ -3,24 +3,32 @@
 @inject CasoDeUsoUsuarioConsultaPorId CasoDeUsoUsuarioConsultaPorId
 @inject CasoDeUsoUsuarioModificacion CasoDeUsoUsuarioModificacion
 @inject NavigationManager Navegador
+@inject ServicioSesion servicioSesion
 
-<h3>Modificando al Cliente "@_user.nombre"</h3>
 
-<input placeholder="Nombre" @bind="_user.nombre" class="form-control">
-<input placeholder="Apellido" @bind="_user.apellido" class="form-control">
-<input placeholder="Contraseña" type="Password" @bind="_user.contraseña" class="form-control">
+@if(servicioSesion.UsuarioLogged.id==1){
+    <h3>Modificando al Cliente "@_user.nombre"</h3>
 
-<h3>Seleccione los estados:</h3>
-<div>
-    @foreach (var permiso in permisos)
-    {
-        <div>
-            <input type="checkbox" @onchange="() => TogglePermiso(permiso)" />
-            <label>@permiso</label>
-        </div>
-    }
-</div>
-<button class="btn btn-primary" @onclick="Aceptar">Aceptar</button>
+    <input placeholder="Nombre" @bind="_user.nombre" class="form-control">
+    <input placeholder="Apellido" @bind="_user.apellido" class="form-control">
+    <input placeholder="Contraseña" type="Password" @bind="_user.contraseña" class="form-control">
+
+    <h3>Seleccione los estados:</h3>
+    <div>
+        @foreach (var permiso in permisos)
+        {
+            <div>
+                <input type="checkbox" checked="@TienePermiso(permiso)" @onchange="() => TogglePermiso(permiso)" />
+                <label>@permiso</label>
+            </div>
+        }
+    </div>
+    <button class="btn btn-primary" @onclick="Aceptar">Aceptar</button>
+}
+else{
+    <h3>No tiene permisos para modificar usuarios</h3>
+}
+
 
 @code {
     private Usuario _user = new Usuario();
@@ -48,11 +56,15 @@
         {
             _user.permisos.Add(permiso);
         }
-    }
+}
 
     void Aceptar()
     {
         CasoDeUsoUsuarioModificacion.EjecutarModificarUsuario(_user);
         Navegador.NavigateTo("listadousuarios");
+    }
+
+    private bool TienePermiso(Permiso permiso){
+        return _user.permisos.Contains(permiso);
     }
 }

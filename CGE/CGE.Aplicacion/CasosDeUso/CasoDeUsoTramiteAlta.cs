@@ -11,7 +11,7 @@ public class CasoDeUsoTramiteAlta(ITramiteRepositorio repoTra, IExpedienteReposi
                 if (expediente != null)
                 {
                     repoTra.darDeAltaTramite(tramite);
-                    servicio.ActualizarEstado(expediente);
+                    expediente = servicio.ActualizarEstado(expediente);
                     repoExp.ModificarExpediente(expediente, usuario.id);
                 }
 

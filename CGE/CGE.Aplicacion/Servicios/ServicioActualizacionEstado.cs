@@ -1,7 +1,7 @@
 namespace CGE.Aplicacion;
 public class ServicioActualizacionEstado
 {
-    public void ActualizarEstado(Expediente expediente)
+    public Expediente ActualizarEstado(Expediente expediente)
     {
         if (expediente.Tramites != null && expediente.Tramites.Count() > 0)
         {
@@ -23,5 +23,6 @@ public class ServicioActualizacionEstado
                     break;
             }
         }
+        return expediente;
     }
 }

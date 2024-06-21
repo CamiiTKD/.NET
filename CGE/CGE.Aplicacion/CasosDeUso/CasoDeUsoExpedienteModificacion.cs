@@ -9,7 +9,7 @@ public class CasoDeUsoExpedienteModificacion(IExpedienteRepositorio repoExp, Exp
         }
         if (validador.Validar(expediente))
         {
-            servicio.ActualizarEstado(expediente); //No importa lo que ponga el usuario si el tramite ultimo activa un cambio.
+            expediente = servicio.ActualizarEstado(expediente); //No importa lo que ponga el usuario si el tramite ultimo activa un cambio.
             expediente.ModificarUltimaFecha(usuario.id);
             repoExp.ModificarExpediente(expediente, usuario.id);
         }
