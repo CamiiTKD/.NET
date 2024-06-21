@@ -2,8 +2,6 @@ namespace CGE.Repositorios;
 using Aplicacion;
 using System.Security.Cryptography;
 using System.Text;
-using CGE.Aplicacion;
-using Microsoft.VisualBasic;
 
 public class RepositorioUsuario : IUsuarioRepositorio
 {
@@ -24,17 +22,21 @@ public class RepositorioUsuario : IUsuarioRepositorio
     {
         if (!BuscarAdmin())
         {
-            u.permisos.Add(Permiso.ExpedienteAlta);
-            u.permisos.Add(Permiso.ExpedienteBaja);
-            u.permisos.Add(Permiso.ExpedienteModificacion);
-            u.permisos.Add(Permiso.TramiteAlta);
-            u.permisos.Add(Permiso.TramiteBaja);
-            u.permisos.Add(Permiso.TramiteModificacion);
-            u.permisos.Add(Permiso.PermisoModificacion);
-            u.permisos.Add(Permiso.UsuarioBaja);
-            u.permisos.Add(Permiso.UsuarioModificacion);
+            if(u.permisos != null){
+                u.permisos.Add(Permiso.ExpedienteAlta);
+                u.permisos.Add(Permiso.ExpedienteBaja);
+                u.permisos.Add(Permiso.ExpedienteModificacion);
+                u.permisos.Add(Permiso.TramiteAlta);
+                u.permisos.Add(Permiso.TramiteBaja);
+                u.permisos.Add(Permiso.TramiteModificacion);
+                u.permisos.Add(Permiso.PermisoModificacion);
+                u.permisos.Add(Permiso.UsuarioBaja);
+                u.permisos.Add(Permiso.UsuarioModificacion);
+            }
         }
-        u.contraseña = FuncionHash(u.contraseña);
+        if(u.contraseña != null){
+            u.contraseña = FuncionHash(u.contraseña);
+        }
         contexto.Add(u);
         contexto.SaveChanges();
     }
@@ -46,8 +48,10 @@ public class RepositorioUsuario : IUsuarioRepositorio
         {
             new RepositorioException($"el usuario con id: {idBorrar} no se encuentra registrado en la pagina.");
         }
-        contexto.Remove(usuarioBorrar);
-        contexto.SaveChanges();
+        else{
+            contexto.Remove(usuarioBorrar);
+            contexto.SaveChanges();
+        }
     }
 
 
@@ -55,13 +59,15 @@ public class RepositorioUsuario : IUsuarioRepositorio
     {
         var usuarioModificar = contexto.Usuarios.Where(
                                 u => u.id == usuario.id).SingleOrDefault();
-        string contraseñaNueva = FuncionHash(usuario.contraseña);
-        usuarioModificar.nombre = usuario.nombre;
-        usuarioModificar.apellido = usuario.apellido;             
-        if(usuarioModificar.contraseña != contraseñaNueva){          
-            usuarioModificar.contraseña = contraseñaNueva;
+        if ((usuario.contraseña != null)&&(usuarioModificar != null)){
+            string contraseñaNueva = FuncionHash(usuario.contraseña);
+            usuarioModificar.nombre = usuario.nombre;
+            usuarioModificar.apellido = usuario.apellido;             
+            if(usuarioModificar.contraseña != contraseñaNueva){          
+                usuarioModificar.contraseña = contraseñaNueva;
+            }
+            contexto.SaveChanges();
         }
-        contexto.SaveChanges();
     }
 
 
